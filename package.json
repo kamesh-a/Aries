@@ -1,0 +1,8 @@
+{
+  "name": "Aries Browser",
+  "main": "index.html",
+  "window": {
+    "frame": false,
+		"icon": "images/placeholder-logo"
+  }
+}
