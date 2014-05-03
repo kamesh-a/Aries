@@ -1,8 +1,8 @@
 {
-  "name": "Aries Browser",
-  "main": "index.html",
+  "name": "Aries 1.0",
+  "main": "app://aries/index.html",
   "window": {
     "frame": false,
-		"icon": "images/placeholder-logo"
+		"icon": "resources/images/placeholder-logo.icns"
   }
 }

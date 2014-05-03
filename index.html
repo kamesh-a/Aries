@@ -6,13 +6,38 @@
 		<meta charset="utf-8"/>
 		<title>Aries</title>
 
+		<link rel="stylesheet" href="resources/css/style.css"/>
+		<script src="resources/scripts/vendor/jquery-2.1.0.min.js"></script>
+		<script src="resources/scripts/cursor.js"></script>
+		<script src="resources/scripts/aries.js"></script>
+
 	</head>
 
 	<body>
 
-		<h1>Welcome to hikari</h1>
-		<p>By the time this is done, Aries will be the coolest browser, EVER.</p>
-		<p>We are using node.js <script>document.write(process.version)</script>.</p>
+		<section id="aries-titlebar">
+			<h1>Aries</h1>
+		</section>
+
+		<section id="aries-powerbar">
+			<div id="browsing-actions" class="button-group">
+				<button class="app-settings"></button>
+				<button class="app-go-back"></button>
+				<button class="app-go-forth"></button>
+			</div>
+
+			<input id="url-bar" type="text" placeholder="Input an address or query"/>
+
+			<div id="window-actions" class="button-group">
+				<button class="app-minimize"></button>
+				<button class="app-maximize"></button>
+				<button class="app-close"></button>
+			</div>
+		</section>
+
+		<section id="aries-showcase">
+			<!--/ <p>We are using node.js <script>document.write(process.version)</script>.</p> /-->
+		</section>
 
 	</body>
 
