@@ -45,8 +45,10 @@ body {
 	background-color: $dark-gray;
 	opacity: 0;
 	transition: all 0.2s ease;
+	user-select: none;
 
 	-webkit-app-region: drag;
+	-webkit-user-select: none;
 
 	h1 {
 		margin: 0; padding: 0;
