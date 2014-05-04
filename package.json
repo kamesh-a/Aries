@@ -1,8 +1,13 @@
 {
-  "name": "Aries 1.0",
+  "name": "Aries",
+	"description": "A web browser for hikari",
   "main": "app://aries/index.html",
+	"private": true,
+	"version": "0.1",
   "window": {
+		"width": 900,
+		"height": 500,
     "frame": false,
-		"icon": "resources/images/placeholder-logo.icns"
+		"position": "center"
   }
 }
