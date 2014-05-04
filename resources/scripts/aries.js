@@ -59,15 +59,18 @@
 			path: require("path")
 		}
 
-	  $(".app-minimize").on("click", function () {
+		// Minimize Aries
+		$(".app-minimize").on("click", function () {
 			nw.win.minimize();
 		});
 
-	  $(".app-maximize").on("click", function () {
+		// Un/Maximize Aries
+		$(".app-maximize").on("click", function () {
 			nw.win.maximize();
 		});
 
-	  $(".app-close").on("click", function () {
+		// Close Aries
+		$(".app-close").on("click", function () {
 			nw.win.close();
 		});
 
