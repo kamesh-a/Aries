@@ -3,55 +3,6 @@
 	// @IdeasNeverCease
 	// ========================================================
 
-	var $vW = $(window).width(), $vH = $(window).height();
-
-	$(function () {
-
-		// Set URL bar width
-		$("#url-bar").css("width", $vW - 190 + "px");
-
-		// Set showcase width and height
-		$("#aries-showcase").css({
-			"width": $vW,
-			"height": $vH - 31 + "px"
-		});
-
-		// Titlebar show functionality
-		var timeoutId;
-
-		$(".button-group").hover(function () {
-
-			if (!timeoutId) {
-				timeoutId = window.setTimeout(function () {
-
-					timeoutId = null; 
-
-					$("#aries-titlebar").css({
-						"margin": "0",
-						"opacity": "1"
-					});
-
-				}, 850);
-			}
-
-		});
-
-		$("#aries-showcase").hover(function () {
-
-			if (timeoutId) {
-				window.clearTimeout(timeoutId);
-				timeoutId = null;
-			} else {
-				$("#aries-titlebar").css({
-					"margin": "0 0 -31px 0",
-					"opacity": "0"
-				});
-			}
-
-		});
-
-	});
-
 	// Window Actions!
 	$(function () {
 
@@ -64,6 +15,9 @@
 			fs: require("fs"),
 			path: require("path")
 		}
+
+		var $vW = $(window).width(), $vH = $(window).height();
+		// var $vW = nw.win.window.innerWidth, $vH = nw.win.window.innerHeight;
 
 		// Minimize Aries
 		$(".app-minimize").on("click", function () {
@@ -80,8 +34,73 @@
 			nw.win.close();
 		});
 
+		// Set URL bar width
+		$("#url-bar").css("width", nw.win.window.innerWidth - 190 + "px");
+
+		// Set showcase width and height
+		$("#aries-showcase").css({
+			"width": nw.win.window.innerWidth,
+			"height": nw.win.window.innerHeight - 31 + "px"
+		});
+
+		// Recalculate sizing of browser elements when scaling Aries
+		nw.win.on("resize", function () {
+
+			// Set URL bar width
+			$("#url-bar").css("width", nw.win.window.innerWidth - 190 + "px");
+
+			// Set showcase width and height
+			$("#aries-showcase").css({
+				"width": nw.win.window.innerWidth,
+				"height": nw.win.window.innerHeight - 31 + "px"
+			});
+
+		});
+
+		/*
+		// This needs to be smoother. For now, just grab and drag window via URL bar
+		$(".button-group").hover(function () { showTitlebar(); });
+		$("#aries-showcase").hover(function () { hideTitlebar(); });
+		*/
+
 	});
 
+	var timeoutId;
+
+	// Titlebar show functionality
+	function showTitlebar() {
+
+		if (!timeoutId) {
+			timeoutId = window.setTimeout(function () {
+
+				timeoutId = null; 
+
+				$("#aries-titlebar").css({
+					"margin": "0",
+					"opacity": "1"
+				});
+
+			}, 950);
+		}
+		
+	}
+
+	// Titlebar hide functionality
+	function hideTitlebar() {
+
+		if (timeoutId) {
+			window.clearTimeout(timeoutId);
+			timeoutId = null;
+		} else {
+			$("#aries-titlebar").css({
+				"margin": "0 0 -31px 0",
+				"opacity": "0"
+			});
+		}
+
+	}
+
+	// Go to a website, or search for something
 	function goThere() {
 
 		// var search = /\s+/; // regex to look for spaces in input
