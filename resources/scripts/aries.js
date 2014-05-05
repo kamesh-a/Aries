@@ -128,7 +128,7 @@
 		} else {
 
 			// looks like input isn't a URL, so search!
-			document.getElementById("aries-showcase").src = "http://duckduckgo.com?q=" + encodeURIComponent(document.getElementById("url-bar").value);
+			document.getElementById("aries-showcase").src = "https://next.duckduckgo.com/?q=" + encodeURIComponent(document.getElementById("url-bar").value);
 			console.log(a); // should be true, search DDG
 
 		}
