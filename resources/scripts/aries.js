@@ -57,6 +57,14 @@
 
 		});
 
+		// Show current page URL in URL bar
+		$("iframe").on("load", function () {
+
+			var currentURL = $("#aries-showcase").get(0).contentWindow.location;
+			$("#url-bar").val(currentURL);
+
+		});
+
 		/*
 		// This needs to be smoother. For now, just grab and drag window via URL bar
 		$(".button-group").hover(function () { showTitlebar(); });
@@ -126,3 +134,10 @@
 		}
 
 	}
+
+
+
+
+
+
+
