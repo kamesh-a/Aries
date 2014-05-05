@@ -7,14 +7,14 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>node-webkit</string>
+	<string>Aries</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
 			<string>aries.icns</string>
 			<key>CFBundleTypeName</key>
-			<string>node-webkit App</string>
+			<string>Aries</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
@@ -38,15 +38,15 @@
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
-	<string>node-webkit</string>
+	<string>Aries</string>
 	<key>CFBundleIconFile</key>
-	<string>nw.icns</string>
+	<string>aries.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.intel.nw</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>node-webkit</string>
+	<string>Aries</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -79,23 +79,23 @@
 				<string>com.pkware.zip-archive</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>node-webkit App</string>
+			<string>Aries</string>
 			<key>UTTypeIconFile</key>
-			<string>nw.icns</string>
+			<string>aries.icns</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.intel.nw.app</string>
+			<string>com.intel.aries.app</string>
 			<key>UTTypeReferenceURL</key>
 			<string>https://github.com/rogerwang/node-webkit/wiki/How-to-package-and-distribute-your-apps</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>com.apple.ostype</key>
-				<string>node-webkit</string>
+				<string>Aries</string>
 				<key>public.filename-extension</key>
 				<array>
-					<string>nw</string>
+					<string>aries</string>
 				</array>
 				<key>public.mime-type</key>
-				<string>application/x-node-webkit-app</string>
+				<string>application/x-aries-browser</string>
 			</dict>
 		</dict>
 	</array>
