@@ -19,14 +19,7 @@
 		cursor += "</g>";
 		cursor += "</svg>";
 
-		// $("#login-page, #hikari-container").append(cursor); // gif causes slowness on login, will change later
-		$("html").append(cursor); // this causes issues
-
-		/*
-		$(document).one(function {
-			$("#cursor").css("display", "none");
-		});
-		*/
+		$("html").append(cursor);
 
 		// Link Behavior
 		$(document).on("mouseover", "a", function () {

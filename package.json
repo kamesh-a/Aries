@@ -2,11 +2,22 @@
   "name": "Aries",
 	"description": "A web browser for hikari",
   "main": "app://aries/index.html",
+	"maintainers": [{
+		"name": "NetOperator Wibby",
+		"email": "tadashi@hikar.io",
+		"web": "http://hikar.io"
+	}],
 	"private": true,
+	"repositories": [{
+		"type": "git",
+		"url": "https://github.com/IdeasNeverCease/Aries.git"
+	}],
 	"version": "0.1",
   "window": {
-		"width": 900,
-		"height": 500,
+		"width": 1000,
+		"height": 600,
+		"min_width": 320,
+		"min-height": 200,
     "frame": false,
 		"position": "center"
   }
