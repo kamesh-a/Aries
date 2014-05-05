@@ -30,7 +30,9 @@
 				<button class="app-go-forth"></button>
 			</div>
 
-			<input id="url-bar" type="text" placeholder="Input an address or query"/>
+			<!--/ <input id="url-bar" type="text" placeholder="Input an address or query"/> /-->
+
+			<input id="url-bar" type="text" placeholder="Input an address or query" onkeydown="if (event.keyCode == 13 || event.which == 13) { goThere(); }"/>
 
 			<div id="window-actions" class="button-group">
 				<button class="app-minimize"></button>
@@ -39,10 +41,14 @@
 			</div>
 		</section>
 
+		<!--/
 		<section id="aries-showcase">
-			<!--/ <p>We are using node.js <script>document.write(process.version)</script>.</p> /-->
+			<p>We are using node.js <script>document.write(process.version)</script>.</p>
 			<a href="http://ddg.gg">Test Link</a>
 		</section>
+		/-->
+
+		<iframe id="aries-showcase" src="http://ddg.gg" seamless="true" nwUserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Aries/0.1.0" nwdisable nwfaketop></iframe>
 
 	</body>
 
