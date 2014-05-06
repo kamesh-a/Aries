@@ -63,7 +63,8 @@
 
 			console.log("Cmd+T or Ctrl+T");
 
-			window.open("index.html", "_blank");
+			// window.open("index.html", "_blank");
+			window.open("index.html");
 			return false;
 
 		});
