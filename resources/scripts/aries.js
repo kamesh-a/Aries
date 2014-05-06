@@ -57,6 +57,17 @@
 
 		});
 
+		// https://github.com/ccampbell/mousetrap
+		// Keyboard shortcuts courtesy of Mousetrap. Holla!
+		Mousetrap.bind(["command+t", "ctrl+t"], function() {
+
+			console.log("Cmd+T or Ctrl+T");
+
+			window.open("index.html", "_blank");
+			return false;
+
+		});
+
 		// Show current page URL in URL bar
 		$("iframe").on("load", function () {
 
