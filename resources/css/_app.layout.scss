@@ -107,6 +107,77 @@ body {
 	white-space: pre; //
 }
 
+#tab-wrapper {
+	width: auto; height: 31px;
+
+	display: none;
+	position: absolute;
+	right: 92px;
+	visibility: hidden;
+
+	.tab {
+		width: 160px; height: 100%;
+		margin: 0; padding: 0;
+
+		background-color: transparent;
+		border: 0;
+		border-left: 1px solid rgba($black, 0.05);
+		cursor: pointer;
+		float: left;
+	}
+
+	&:before, &:after {
+		content: "";
+		display: table;
+	}
+
+	&:after { clear: both; }
+}
+
+//
+/*  Hide tab navigation by default
+.tabs {
+  display: none;
+  visibility: hidden;
+}
+*/
+
+/*  Display tab navigation if javascript enabled.
+ *  This requires on the included js-accessibility.js-tabby script. */
+.js-tabby #tab-wrapper {
+  display: block;
+  visibility: visible;
+}
+
+/*  Force browser to show a pointer on tab navigation.
+.tabs a,
+.tabs button {
+  cursor: pointer;
+}
+*/
+
+/*  Hide tab content if javascript is enabled. */
+.js-tabby .tabs-pane {
+  display: none;
+  visibility: hidden;
+}
+
+/*  Show tab content when active class is added.
+ *  This class is added via javascript. */
+.tabs-pane.active {
+  display: block;
+  visibility: visible;
+}
+
+/* Clearfix */
+
+/*
+.tabs:after {
+  clear: both;
+}
+*/
+//
+
 .button-group {
 	align-items: center;
 	box-align: center;
@@ -168,9 +239,11 @@ button.app-close {
 	&:before { content: "\f2bd"; }
 }
 
-#aries-showcase {
+#aries-showcase, iframe {
 	width: 100%; height: 100%;
+}
 
+#aries-showcase {
 	background-image: url("../images/speed-dial-bg2.png");
 	background-repeat: repeat;
 	background-size: 400px 299px;

@@ -14,7 +14,7 @@
 			exec: require("child_process").exec,
 			fs: require("fs"),
 			path: require("path")
-		}
+		};
 
 		var $vW = $(window).width(), $vH = $(window).height();
 		// var $vW = nw.win.window.innerWidth, $vH = nw.win.window.innerHeight;
@@ -38,7 +38,7 @@
 		$("#url-bar").css("width", nw.win.window.innerWidth - 190 + "px");
 
 		// Set showcase width and height
-		$("#aries-showcase").css({
+		$("#aries-showcase, iframe").css({
 			"width": nw.win.window.innerWidth,
 			"height": nw.win.window.innerHeight - 31 + "px"
 		});
@@ -50,7 +50,7 @@
 			$("#url-bar").css("width", nw.win.window.innerWidth - 190 + "px");
 
 			// Set showcase width and height
-			$("#aries-showcase").css({
+			$("#aries-showcase, iframe").css({
 				"width": nw.win.window.innerWidth,
 				"height": nw.win.window.innerHeight - 31 + "px"
 			});
@@ -59,20 +59,30 @@
 
 		// https://github.com/ccampbell/mousetrap
 		// Keyboard shortcuts courtesy of Mousetrap. Holla!
-		Mousetrap.bind(["command+t", "ctrl+t"], function() {
+		Mousetrap.bind(["command+t", "ctrl+t"], function () {
 
-			console.log("Cmd+T or Ctrl+T");
+			// $("#tab-wrapper").append("<div class='tab' data='resources/pages/start.html' id='tab-1'>New Tab</div>");
+
+			// $("#aries-showcase iframe").remove();
+			// $("#aries-showcase").append("<iframe src='' id='tab-1' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Aries/0.1.0' nwdisable nwfaketop></iframe>");
+
+			// $(".content").html($("#1.contet").html());
+			// $("iframe").each(function () { $(this).hide(); });
 
 			// window.open("index.html", "_blank");
+			/*
 			window.open("index.html");
 			return false;
+			*/
+
+			console.log("Cmd+T or Ctrl+T");
 
 		});
 
 		// Show current page URL in URL bar
 		$("iframe").on("load", function () {
 
-			var currentURL = $("#aries-showcase").get(0).contentWindow.location;
+			var currentURL = $("#aries-showcase iframe").get(0).contentWindow.location;
 			$("#url-bar").val(currentURL);
 
 		});
@@ -85,6 +95,27 @@
 
 	});
 
+	/*
+	$(".tab").on("click", function () {
+
+		var tabIdentifier = $(this).attr("id");
+		var tabURL = $(this).attr("data");
+		// var showcaseIdentifier = $("iframe#" + tabIdentifier);
+
+		// $("iframe:not(showcaseIdentifier)").hide();
+		// $("iframe#" + tabIdentifier).attr("src", tabURL);
+		$("#aries-showcase iframe").attr("src", tabURL);
+		// console.log("Clicked tab");
+
+		// var g = $("#" + s + ".contet").html();
+		// var g = $("#tab-" + tabIdentifier).attr("src", url);
+		// $(".content").html(g);
+
+	});
+	*/
+
+	/*
+	// This goes along with the code comment above that needs to be smoother
 	var timeoutId;
 
 	// Titlebar show functionality
@@ -119,6 +150,7 @@
 		}
 
 	}
+	*/
 
 	// Go to a website, or search for something
 	function goThere() {
@@ -136,13 +168,23 @@
 
 			// check to see if input is a URL
 			// apparently, encodeURIComponent fucks up URLs. Hooray for learning!
-			document.getElementById("aries-showcase").src = "http://" + encodeURI(document.getElementById("url-bar").value);
+			var encodeURL = "http://" + encodeURI($("#url-bar").val());
+			$("#aries-showcase iframe").attr("src", encodeURL);
+
+			// document.getElementById("aries-showcase iframe").src = "http://" + encodeURI(document.getElementById("url-bar").value);
+			// $("#aries-showcase iframe").attr("src", "http://" + encodeURI($("#url-bar").val()));
+
 			console.log(a); // should be true, go to actual site
 
 		} else {
 
 			// looks like input isn't a URL, so search!
-			document.getElementById("aries-showcase").src = "https://next.duckduckgo.com/?q=" + encodeURIComponent(document.getElementById("url-bar").value);
+			var encodeSearch = "https://next.duckduckgo.com/?q=" + encodeURIComponent($("#url-bar").val());
+			$("#aries-showcase iframe").attr("src", encodeSearch);
+
+			// document.getElementById("aries-showcase iframe").src = "https://next.duckduckgo.com/?q=" + encodeURIComponent(document.getElementById("url-bar").value);
+			// $("#aries-showcase iframe").attr("src", "https://next.duckduckgo.com/?q=" + encodeURIComponent($("#url-bar").val()));
+
 			console.log(a); // should be true, search DDG
 
 		}

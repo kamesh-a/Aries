@@ -1,7 +1,7 @@
 {
-  "name": "Aries",
+	"name": "Aries",
 	"description": "A web browser for hikari",
-  "main": "app://aries/index.html",
+	"main": "app://aries/index.html",
 	"maintainers": [{
 		"name": "NetOperator Wibby",
 		"email": "tadashi@hikar.io",
@@ -13,12 +13,12 @@
 		"url": "https://github.com/IdeasNeverCease/Aries.git"
 	}],
 	"version": "0.1",
-  "window": {
+	"window": {
 		"width": 1000,
 		"height": 600,
 		"min_width": 320,
 		"min-height": 200,
-    "frame": false,
+		"frame": false,
 		"position": "center"
-  }
+	}
 }

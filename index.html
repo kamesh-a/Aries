@@ -7,11 +7,12 @@
 		<title>Aries</title>
 
 		<link rel="stylesheet" href="resources/css/style.css"/>
+
 		<script src="resources/scripts/vendor/jquery-2.1.0.min.js"></script>
 		<script src="resources/scripts/mousetrap.js"></script>
 		<script src="resources/scripts/vendor/require.js"></script>
-		<!--/ <script src="resources/scripts/cursor.js"></script> /-->
 		<script src="resources/scripts/aries.js"></script>
+		<script src="resources/scripts/tabby.js"></script>
 
 	</head>
 
@@ -32,6 +33,12 @@
 
 			<input id="url-bar" type="text" placeholder="Input an address or query" onkeydown="if (event.keyCode == 13 || event.which == 13) { goThere(); }"/>
 
+			<div id="tab-wrapper">
+				<!--/ <div class='tab' data='resources/pages/start.html' id='tab-1'>New Tab</div> /-->
+				<button class="tab" data-tab="#tab0" data-page="http://hikar.io/network">The Network</button>
+				<button class="tab" data-tab="#tab1" data-page="resources/pages/start.html">Start Page</button>
+			</div>
+
 			<div id="window-actions" class="button-group">
 				<button class="app-minimize"></button>
 				<button class="app-maximize"></button>
@@ -46,7 +53,22 @@
 		</section>
 		/-->
 
-		<iframe id="aries-showcase" src="http://hikar.io/network" seamless="true" nwUserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Aries/0.1.0" nwdisable nwfaketop></iframe>
+		<!--/ <iframe id="aries-showcase" src="http://hikar.io/network" seamless="true" nwUserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Aries/0.1.0" nwdisable nwfaketop></iframe> /-->
+
+		<section id="aries-showcase">
+			<iframe src="http://hikar.io/network" id="tab0" class="tabs-pane active" seamless="true" nwUserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Aries/0.1.0" nwdisable nwfaketop></iframe>
+			<iframe src="resources/pages/start.html" id="tab1" class="tabs-pane" seamless="true" nwUserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Aries/0.1.0" nwdisable nwfaketop></iframe>
+	</section>
+
+	<script>
+		tabby.init({
+			toggleActiveClass: "active",
+			contentActiveClass: "active",
+			initClass: "js-tabby",
+			callbackBefore: function (toggle, tabID) {},
+			callbackAfter: function (toggle, tabID) {}
+		});
+	</script>
 
 	</body>
 
