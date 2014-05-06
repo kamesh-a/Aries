@@ -122,7 +122,8 @@
 		if (url.test($("#url-bar").val())) {
 
 			// check to see if input is a URL
-			document.getElementById("aries-showcase").src = "http://" + encodeURIComponent(document.getElementById("url-bar").value);
+			// apparently, encodeURIComponent fucks up URLs. Hooray for learning!
+			document.getElementById("aries-showcase").src = encodeURI(document.getElementById("url-bar").value);
 			console.log(a); // should be true, go to actual site
 
 		} else {
