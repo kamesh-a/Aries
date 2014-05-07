@@ -122,6 +122,7 @@ body {
 
 		background-color: transparent;
 		border: 0;
+		border-bottom: 1px solid rgba($black, 0.05);
 		border-left: 1px solid rgba($black, 0.05);
 		color: rgba($black, 0.3);
 		cursor: pointer;
@@ -131,7 +132,10 @@ body {
 		@include ellipsis;
 	}
 
-	.active { color: rgba($black, 0.9); }
+	.active {
+		border-bottom: none;
+		color: rgba($black, 0.9);
+	}
 
 	&:before, &:after {
 		content: "";

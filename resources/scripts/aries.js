@@ -94,11 +94,11 @@
 		// Show current page URL in URL bar
 		$("iframe").on("load", function () {
 
-			var currentURL = $("#aries-showcase iframe").get(0).contentWindow.location; // get current iframe URL
-			var currentTitle = $("#aries-showcase iframe").contents().find("title").html(); // get current iframe title
+			var currentURL = $("#aries-showcase iframe.active").get(0).contentWindow.location; // get current iframe URL
+			var currentTitle = $("#aries-showcase iframe.active").contents().find("title").html(); // get current iframe title
 
 			$("#url-bar").val(currentURL);
-			$("button.tab").text(currentTitle);
+			$("button.active").text(currentTitle);
 
 		});
 
