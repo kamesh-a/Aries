@@ -75,19 +75,26 @@
 			return false;
 			*/
 
-			console.log("Cmd+T or Ctrl+T");
+			console.log("New tab added to Aries");
 
 		});
 
+		// Reload current iframe page
 		Mousetrap.bind(["command+r", "ctrl+r"], function () {
-
-			// $("#aries-showcase iframe.active").get(0).contentWindow.location.reload();
 
 			$("iframe.active").each(function () {
 			  this.contentWindow.location.reload(true);
 			});
 
-			console.log("Reload page");
+			console.log("Reloading Aries page");
+
+		});
+
+		// Brings up Developer Tools
+		Mousetrap.bind(["command+u", "ctrl+u"], function () {
+
+			nw.win.showDevTools("iframe");
+			console.log("Dev Mode, ON");
 
 		});
 
