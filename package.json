@@ -18,7 +18,9 @@
 		"height": 600,
 		"min_width": 320,
 		"min_height": 200,
-		// "frame": false,
-		"position": "center"
+		"focus": true,
+		"frame": false,
+		"position": "center",
+		"show": false
 	}
 }

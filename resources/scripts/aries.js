@@ -118,6 +118,22 @@
 		$("#aries-showcase").hover(function () { hideTitlebar(); });
 		*/
 
+		onload = function() {
+			nw.win.maximize();
+			nw.win.show();
+		}
+
+		// $("#url-bar").focus();
+
+		/*
+		var a_window = window.open('empty.html',{
+		  "position": "center",
+		  "focus": true,
+		  "toolbar": false,
+		  "frame": true
+		});
+		*/
+
 	});
 
 	/*
