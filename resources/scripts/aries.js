@@ -17,7 +17,6 @@
 		};
 
 		var $vW = $(window).width(), $vH = $(window).height();
-		// var $vW = nw.win.window.innerWidth, $vH = nw.win.window.innerHeight;
 
 		// Minimize Aries
 		$(".app-minimize").on("click", function () {
@@ -57,23 +56,36 @@
 
 		});
 
-		// https://github.com/ccampbell/mousetrap
 		// Keyboard shortcuts courtesy of Mousetrap. Holla!
+		// https://github.com/ccampbell/mousetrap
 		Mousetrap.bind(["command+t", "ctrl+t"], function () {
 
-			// $("#tab-wrapper").append("<div class='tab' data='resources/pages/start.html' id='tab-1'>New Tab</div>");
+			// Remove focus from other tabs and windows
+			$(".tab, .tabs-pane").removeClass("active");
 
-			// $("#aries-showcase iframe").remove();
-			// $("#aries-showcase").append("<iframe src='' id='tab-1' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Aries/0.1.0' nwdisable nwfaketop></iframe>");
+			$("#tab-wrapper").append("<button class='tab active' data-page='start.html'></button>");
+			$("#aries-showcase").append("<iframe class='tabs-pane active' src='start.html' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Aries/0.1.0' nwdisable nwfaketop></iframe>");
 
-			// $(".content").html($("#1.contet").html());
-			// $("iframe").each(function () { $(this).hide(); });
+			var tabID = 0, windowID = 0;
 
-			// window.open("index.html", "_blank");
-			/*
-			window.open("index.html");
-			return false;
-			*/
+			// Add a new tab
+			$("#tab-wrapper .tab").each(function () {
+
+				tabID++;
+				$(this).attr("data-tab", "#tab" + tabID);
+
+			});
+
+			// Add a new window
+			$("#aries-showcase iframe").each(function () {
+
+				windowID++;
+				$(this).attr("id", "tab" + windowID);
+
+			}).css({ "width": nw.win.window.innerWidth, "height": nw.win.window.innerHeight - 31 + "px" });
+
+			// Reinitialize tabby to recognize new tab and window
+			tabby.init();
 
 			console.log("New tab added to Aries");
 
@@ -86,11 +98,11 @@
 			  this.contentWindow.location.reload(true);
 			});
 
-			console.log("Reloading Aries page");
+			console.log("Reloaded window");
 
 		});
 
-		// Brings up Developer Tools
+		// Bring up Developer Tools
 		Mousetrap.bind(["command+u", "ctrl+u"], function () {
 
 			nw.win.showDevTools("iframe");
@@ -112,23 +124,23 @@
 		$(".tab").on("click", function () {
 
 			var currentURL = $("#aries-showcase iframe.active").get(0).contentWindow.location; // get current iframe URL
-			var currentTitle = $("#aries-showcase iframe.active").contents().find("title").html(); // get current iframe title
+			var currentTitle = $("iframe.active").contents().find("title").html(); // get current iframe title
 
 			$("#url-bar").val(currentURL);
 			$("button.active").text(currentTitle);
 
 		});
 
+		onload = function() {
+			nw.win.maximize();
+			nw.win.show();
+		}
+
 		/*
 		// This needs to be smoother. For now, just grab and drag window via URL bar
 		$(".button-group").hover(function () { showTitlebar(); });
 		$("#aries-showcase").hover(function () { hideTitlebar(); });
 		*/
-
-		onload = function() {
-			nw.win.maximize();
-			nw.win.show();
-		}
 
 		// $("#url-bar").focus();
 

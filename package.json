@@ -14,12 +14,12 @@
 	}],
 	"version": "0.1",
 	"window": {
-		"width": 1000,
-		"height": 600,
+		// "width": 1000,
+		// "height": 600,
 		"min_width": 320,
 		"min_height": 200,
 		"focus": true,
-		"frame": false,
+		// "frame": false,
 		"position": "center",
 		"show": false
 	}
