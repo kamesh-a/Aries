@@ -79,11 +79,36 @@
 
 		});
 
+		Mousetrap.bind(["command+r", "ctrl+r"], function () {
+
+			// $("#aries-showcase iframe.active").get(0).contentWindow.location.reload();
+
+			$("iframe.active").each(function () {
+			  this.contentWindow.location.reload(true);
+			});
+
+			console.log("Reload page");
+
+		});
+
 		// Show current page URL in URL bar
 		$("iframe").on("load", function () {
 
-			var currentURL = $("#aries-showcase iframe").get(0).contentWindow.location;
+			var currentURL = $("#aries-showcase iframe").get(0).contentWindow.location; // get current iframe URL
+			var currentTitle = $("#aries-showcase iframe").contents().find("title").html(); // get current iframe title
+
 			$("#url-bar").val(currentURL);
+			$("button.tab").text(currentTitle);
+
+		});
+
+		$(".tab").on("click", function () {
+
+			var currentURL = $("#aries-showcase iframe.active").get(0).contentWindow.location; // get current iframe URL
+			var currentTitle = $("#aries-showcase iframe.active").contents().find("title").html(); // get current iframe title
+
+			$("#url-bar").val(currentURL);
+			$("button.active").text(currentTitle);
 
 		});
 
@@ -169,7 +194,7 @@
 			// check to see if input is a URL
 			// apparently, encodeURIComponent fucks up URLs. Hooray for learning!
 			var encodeURL = "http://" + encodeURI($("#url-bar").val());
-			$("#aries-showcase iframe").attr("src", encodeURL);
+			$("#aries-showcase iframe.active").attr("src", encodeURL);
 
 			// document.getElementById("aries-showcase iframe").src = "http://" + encodeURI(document.getElementById("url-bar").value);
 			// $("#aries-showcase iframe").attr("src", "http://" + encodeURI($("#url-bar").val()));
@@ -180,7 +205,7 @@
 
 			// looks like input isn't a URL, so search!
 			var encodeSearch = "https://next.duckduckgo.com/?q=" + encodeURIComponent($("#url-bar").val());
-			$("#aries-showcase iframe").attr("src", encodeSearch);
+			$("#aries-showcase iframe.active").attr("src", encodeSearch);
 
 			// document.getElementById("aries-showcase iframe").src = "https://next.duckduckgo.com/?q=" + encodeURIComponent(document.getElementById("url-bar").value);
 			// $("#aries-showcase iframe").attr("src", "https://next.duckduckgo.com/?q=" + encodeURIComponent($("#url-bar").val()));

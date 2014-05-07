@@ -196,7 +196,7 @@
 
 	})(window, document);
 
-	// Tabby.js ===============================================
+	// Tabby.js ===============================================||
 
 	window.tabby = (function (window, document, undefined) {
 
@@ -264,7 +264,7 @@
 
 	    };
 
-	    // Remove '.active' class from all other tab toggles
+	    // Remove ".active" class from all other tab toggles
 	    // Private method
 	    // Runs functions
 	    var _deactivateOtherToggles = function (toggleSiblings, toggleParentSiblings, options) {

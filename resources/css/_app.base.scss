@@ -93,6 +93,12 @@ $purple:		rgba(162, 0, 255, 1);		// #a200ff;
 .bg-blue			{ background-color: $blue; }
 .bg-purple		{ background-color: $purple; }
 
+@mixin ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////// CURSORS ///
 /*
 #cursor {
