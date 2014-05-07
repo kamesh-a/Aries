@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="resources/css/style.css"/>
 
 		<script src="resources/scripts/vendor/jquery-2.1.0.min.js"></script>
-		<script src="resources/scripts/mousetrap.js"></script>
+		<script src="resources/scripts/mousetrap.min.js"></script>
 		<script src="resources/scripts/vendor/require.js"></script>
 		<script src="resources/scripts/aries.js"></script>
 		<script src="resources/scripts/tabby.js"></script>
@@ -29,8 +29,6 @@
 				<button class="app-go-forth"></button>
 			</div>
 
-			<!--/ <input id="url-bar" type="text" placeholder="Input an address or query"/> /-->
-
 			<input id="url-bar" type="text" placeholder="Input an address or query" onkeydown="if (event.keyCode == 13 || event.which == 13) { goThere(); }"/>
 
 			<div id="tab-wrapper">
@@ -45,29 +43,20 @@
 			</div>
 		</section>
 
-		<!--/
-		<section id="aries-showcase">
-			<p>We are using node.js <script>document.write(process.version)</script>.</p>
-			<a href="http://ddg.gg">Test Link</a>
-		</section>
-		/-->
-
-		<!--/ <iframe id="aries-showcase" src="http://hikar.io/network" seamless="true" nwUserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Aries/0.1.0" nwdisable nwfaketop></iframe> /-->
-
 		<section id="aries-showcase">
 			<iframe src="http://hikar.io/network" id="tab0" class="tabs-pane active" seamless="true" nwUserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Aries/0.1.0" nwdisable nwfaketop></iframe>
 			<iframe src="start.html" id="tab1" class="tabs-pane" seamless="true" nwUserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Aries/0.1.0" nwdisable nwfaketop></iframe>
-	</section>
+		</section>
 
-	<script>
-		tabby.init({
-			toggleActiveClass: "active",
-			contentActiveClass: "active",
-			initClass: "js-tabby",
-			callbackBefore: function (toggle, tabID) {},
-			callbackAfter: function (toggle, tabID) {}
-		});
-	</script>
+		<script>
+			tabby.init({
+				toggleActiveClass: "active",
+				contentActiveClass: "active",
+				initClass: "js-tabby",
+				callbackBefore: function (toggle, tabID) {},
+				callbackAfter: function (toggle, tabID) {}
+			});
+		</script>
 
 	</body>
 

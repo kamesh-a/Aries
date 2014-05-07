@@ -6,17 +6,30 @@
 		<meta charset="utf-8"/>
 		<title>Start Page</title>
 
-		<link rel="stylesheet" href="../css/style.css"/>
+		<link rel="stylesheet" href="resources/css/style.css"/>
 
 		<script src="resources/scripts/vendor/jquery-2.1.0.min.js"></script>
-		<script src="resources/scripts/mousetrap.js"></script>
+		<script src="resources/scripts/mousetrap.min.js"></script>
 		<script src="resources/scripts/vendor/require.js"></script>
 		<script src="resources/scripts/aries.js"></script>
+		<script src="resources/scripts/tabby.js"></script>
 
 	</head>
 
 	<body>
-		Something will be here, at some point.
+
+		<p>Something will be here, at some point.</p>
+
+		<script>
+			tabby.init({
+				toggleActiveClass: "active",
+				contentActiveClass: "active",
+				initClass: "js-tabby",
+				callbackBefore: function (toggle, tabID) {},
+				callbackAfter: function (toggle, tabID) {}
+			});
+		</script>
+
 	</body>
 
 </html>
