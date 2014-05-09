@@ -201,66 +201,15 @@
 
 				setTimeout(function () {
 
-					/*
-					var elems = $(parentSelect).nextAll(), count = elems.length;
-
-					elems.each(function (i) {
-					  $(this).fadeOut(200, function () {
-
-					    $(this).remove(); 
-					    if (!--count) doMyThing();
-
-					  });
-					});
-
-					var toggleClick = $(this);
-					var toggleDiv = toggleClick.attr("rel");
-					*/
-
 					var _currentTitle_ = $("#aries-showcase iframe" + _dataTab_).contents().find("title").html();
-					// $("#tab-wrapper .tab").text(_currentTitle_);
-
-					/*
-					$(".videotitle").bind("keyup", function () {
-
-						var data = $(this).attr("data-id");
-						var title = $(this).val();
-						$(".videodata[data-id*=" + data + "]").text(title);
-
-					});
-					*/
 
 					$("#aries-showcase iframe").bind("load", function () {
-
-						// var data = $(this).attr("data-id");
-						// var title = $(this).val();
 						$(".tab[data-tab=" + _dataTab_ + "]").text(_currentTitle_);
-
 					});
 
-					/*
-					$("div").filter(function () {
-					    return $(this).text().match(/mod/);
-					}).html("Matched!");
-					*/
-
 					console.log("New tab shit #3: " + _currentTitle_);
-					
-					/*
-					var _currentTitle_ = $("#aries-showcase iframe" + _dataTab_).contents().find("title").html();
-					$(".tab").text(_currentTitle_);
-					// $('[data-item="' + _dataTab_ + '"]').text(_currentTitle_);
-					// [data-item="#tab2"]
 
-					// foo = 'winter';
-					// $('[data-item="'+foo+'"]').css('background':'red');
-
-					// console.log("New tab shit #4: " + '[data-item="' + _dataTab_ + '"]');
-					console.log("New tab shit #4: " + ".tab" + '[data-item="' + _dataTab_ + '"]');
-					// console.log("New tab shit #3: " + _currentTitle_);
-					*/
-
-				}, 500);
+				}, 50);
 
 				console.log("New tab shit #1: " + _dataPage_);
 				console.log("New tab shit #2: " + _dataTab_);
