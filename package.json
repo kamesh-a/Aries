@@ -1,6 +1,7 @@
 {
 	"name": "Aries",
 	"description": "A web browser for hikari",
+	"inject-js-start": "resources/scripts/_check.js",
 	"main": "app://aries/index.html",
 	"maintainers": [{
 		"name": "NetOperator Wibby",

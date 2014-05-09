@@ -285,14 +285,14 @@
 	    // Private method
 	    // Runs functions
 	    var _hideOtherTabs = function (tabSiblings, options) {
-
 	        Array.prototype.forEach.call(tabSiblings, function (tab) {
+
 	            if (tab.classList.contains(options.contentActiveClass)) {
 	                _stopVideo(tab);
 	                tab.classList.remove(options.contentActiveClass);
 	            }
-	        });
 
+	        });
 	    };
 
 	    // Show target tabs

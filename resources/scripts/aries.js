@@ -63,16 +63,29 @@
 			// Remove focus from other tabs and windows
 			$(".tab, .tabs-pane").removeClass("active");
 
-			$("#tab-wrapper").append("<button class='tab active' data-page='start.html'></button>");
+			$("#tab-wrapper").append("<button class='tab active' data-page='start.html'>Start Page</button>");
 			$("#aries-showcase").append("<iframe class='tabs-pane active' src='start.html' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Aries/0.1.0' nwdisable nwfaketop></iframe>");
 
+			$("#url-bar").val("app://aries/start.html");
+
 			var tabID = 0, windowID = 0;
+
+			/*
+			var currentURL = $("iframe.active").get(0).contentWindow.location; // get current iframe URL
+			var currentTitle = $("iframe.active").contents().find("title").html(); // get current iframe title
+
+			$("#url-bar").val(currentURL);
+			$("button.active").text(currentTitle);
+			*/
 
 			// Add a new tab
 			$("#tab-wrapper .tab").each(function () {
 
 				tabID++;
 				$(this).attr("data-tab", "#tab" + tabID);
+
+				var dataPage = $(this).attr("data-page");
+				console.log(dataPage);
 
 			});
 
@@ -81,8 +94,19 @@
 
 				windowID++;
 				$(this).attr("id", "tab" + windowID);
+				// $(this).attr("src", dataPage);
 
 			}).css({ "width": nw.win.window.innerWidth, "height": nw.win.window.innerHeight - 31 + "px" });
+
+			// var currentURL = $("tab" + windowID).contentWindow.location; // get current iframe URL
+			// var currentTitle = $("tab" + windowID).contents().find("title").html(); // get current iframe title
+
+			// $("#url-bar").val("Start Page");
+			// $("button.active").text(currentTitle);
+
+			$("iframe.active").each(function () {
+			  this.contentWindow.location.reload(true);
+			});
 
 			// Reinitialize tabby to recognize new tab and window
 			tabby.init();
@@ -102,6 +126,57 @@
 
 		});
 
+		// Show current page URL in URL bar
+		// $(document).on("load", "iframe", function () {
+		$("iframe").load(function () {
+
+			var currentURL = $("#aries-showcase iframe.active").get(0).contentWindow.location; // get current iframe URL
+			var currentTitle = $("#aries-showcase iframe.active").contents().find("title").html(); // get current iframe title
+
+			$("#url-bar").val(currentURL);
+			$("#tab-wrapper button.active").text(currentTitle);
+
+			/*
+			var _windowID_ = $(this).attr("id");
+			var _tabTitle_ = $("#" + _windowID_);
+
+			$("#tab-wrapper button").attr("data-tab", _tabTitle_);
+			*/
+
+		});
+
+		$(document).on("click", ".tab", function () {
+
+			var _tabID = $(this).attr("data-tab");
+			var _gotIT = $("iframe" + _tabID).attr("src");
+			// var _windowID = $(this).attr("data-page");
+
+			var currentURL = $("#aries-showcase iframe.active").get(0).contentWindow.location; // get current iframe URL
+			$("#url-bar").val(currentURL);
+
+			var currentTitle = $("#aries-showcase iframe.active").contents().find("title").html(); // get current iframe title
+			$("#tab-wrapper button.active").text(currentTitle);
+
+			console.log(_tabID);
+			console.log(_gotIT);
+			// console.log(_windowID);
+
+		});
+
+		/*
+		// node-webkit takes over this shortcut at the moment
+		// Close current iframe page
+		Mousetrap.bind(["command+w", "ctrl+w"], function () {
+
+			$("iframe.active").each(function () {
+				this.remove();
+			});
+
+			console.log("Closed window");
+
+		});
+		*/
+
 		// Bring up Developer Tools
 		Mousetrap.bind(["command+u", "ctrl+u"], function () {
 
@@ -110,31 +185,12 @@
 
 		});
 
-		// Show current page URL in URL bar
-		$("iframe").on("load", function () {
-
-			var currentURL = $("#aries-showcase iframe.active").get(0).contentWindow.location; // get current iframe URL
-			var currentTitle = $("#aries-showcase iframe.active").contents().find("title").html(); // get current iframe title
-
-			$("#url-bar").val(currentURL);
-			$("button.active").text(currentTitle);
-
-		});
-
-		$(".tab").on("click", function () {
-
-			var currentURL = $("#aries-showcase iframe.active").get(0).contentWindow.location; // get current iframe URL
-			var currentTitle = $("iframe.active").contents().find("title").html(); // get current iframe title
-
-			$("#url-bar").val(currentURL);
-			$("button.active").text(currentTitle);
-
-		});
-
 		onload = function() {
 			nw.win.maximize();
 			nw.win.show();
 		}
+
+		// $("#url-bar").focus();
 
 		/*
 		// This needs to be smoother. For now, just grab and drag window via URL bar
@@ -142,37 +198,7 @@
 		$("#aries-showcase").hover(function () { hideTitlebar(); });
 		*/
 
-		// $("#url-bar").focus();
-
-		/*
-		var a_window = window.open('empty.html',{
-		  "position": "center",
-		  "focus": true,
-		  "toolbar": false,
-		  "frame": true
-		});
-		*/
-
 	});
-
-	/*
-	$(".tab").on("click", function () {
-
-		var tabIdentifier = $(this).attr("id");
-		var tabURL = $(this).attr("data");
-		// var showcaseIdentifier = $("iframe#" + tabIdentifier);
-
-		// $("iframe:not(showcaseIdentifier)").hide();
-		// $("iframe#" + tabIdentifier).attr("src", tabURL);
-		$("#aries-showcase iframe").attr("src", tabURL);
-		// console.log("Clicked tab");
-
-		// var g = $("#" + s + ".contet").html();
-		// var g = $("#tab-" + tabIdentifier).attr("src", url);
-		// $(".content").html(g);
-
-	});
-	*/
 
 	/*
 	// This goes along with the code comment above that needs to be smoother
@@ -229,10 +255,7 @@
 			// check to see if input is a URL
 			// apparently, encodeURIComponent fucks up URLs. Hooray for learning!
 			var encodeURL = "http://" + encodeURI($("#url-bar").val());
-			$("#aries-showcase iframe.active").attr("src", encodeURL);
-
-			// document.getElementById("aries-showcase iframe").src = "http://" + encodeURI(document.getElementById("url-bar").value);
-			// $("#aries-showcase iframe").attr("src", "http://" + encodeURI($("#url-bar").val()));
+			$("iframe.active").attr("src", encodeURL);
 
 			console.log(a); // should be true, go to actual site
 
@@ -240,20 +263,10 @@
 
 			// looks like input isn't a URL, so search!
 			var encodeSearch = "https://next.duckduckgo.com/?q=" + encodeURIComponent($("#url-bar").val());
-			$("#aries-showcase iframe.active").attr("src", encodeSearch);
-
-			// document.getElementById("aries-showcase iframe").src = "https://next.duckduckgo.com/?q=" + encodeURIComponent(document.getElementById("url-bar").value);
-			// $("#aries-showcase iframe").attr("src", "https://next.duckduckgo.com/?q=" + encodeURIComponent($("#url-bar").val()));
+			$("iframe.active").attr("src", encodeSearch);
 
 			console.log(a); // should be true, search DDG
 
 		}
 
 	}
-
-
-
-
-
-
-
