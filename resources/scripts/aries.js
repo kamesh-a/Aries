@@ -98,12 +98,6 @@
 
 			}).css({ "width": nw.win.window.innerWidth, "height": nw.win.window.innerHeight - 31 + "px" });
 
-			// var currentURL = $("tab" + windowID).contentWindow.location; // get current iframe URL
-			// var currentTitle = $("tab" + windowID).contents().find("title").html(); // get current iframe title
-
-			// $("#url-bar").val("Start Page");
-			// $("button.active").text(currentTitle);
-
 			$("iframe.active").each(function () {
 			  this.contentWindow.location.reload(true);
 			});
@@ -126,24 +120,35 @@
 
 		});
 
-		// Show current page URL in URL bar
-		// $(document).on("load", "iframe", function () {
-		$("iframe").load(function () {
+		/*
+		$("#aries-showcase iframe").each(function () {
 
-			var currentURL = $("#aries-showcase iframe.active").get(0).contentWindow.location; // get current iframe URL
-			var currentTitle = $("#aries-showcase iframe.active").contents().find("title").html(); // get current iframe title
+			// $(document).on("load", "#aries-showcase iframe", function () {
+			$("iframe").load(function () {
 
-			$("#url-bar").val(currentURL);
-			$("#tab-wrapper button.active").text(currentTitle);
+				var currentURL = $("#aries-showcase iframe.active").get(0).contentWindow.location; // get current iframe URL
+				var currentTitle = $("#aries-showcase iframe.active").contents().find("title").html(); // get current iframe title
 
-			/*
-			var _windowID_ = $(this).attr("id");
-			var _tabTitle_ = $("#" + _windowID_);
+				$("#url-bar").val(currentURL);
+				$("#tab-wrapper button.active").text(currentTitle);
 
-			$("#tab-wrapper button").attr("data-tab", _tabTitle_);
-			*/
+				var _windowID_ = $(this).attr("id");
+				var _windowURL_ = $(this).attr("src");
+				// var _windowTitle_ = $(this).contents().find("title").html();
+				// var _tabTitle_ = $("#" + _windowID_);
+
+				$("#tab-wrapper button").attr("data-tab", _tabTitle_);
+				// $("#tab-wrapper button").attr("data-tab", "#" + _windowID_);
+				
+				console.log("iframe window ID " + _windowID_);
+				console.log("iframe window URL " + _windowURL_);
+				// console.log("iframe tab title " + _tabTitle_);
+				// console.log("iframe window URL " + _windowTitle_);
+
+			});
 
 		});
+		*/
 
 		$(document).on("click", ".tab", function () {
 
@@ -186,8 +191,85 @@
 		});
 
 		onload = function() {
+
+			$("#tab-wrapper .tab").each(function () {
+
+				var _dataTab_ = $(this).attr("data-tab");
+				var _dataPage_ = $(this).attr("data-page");
+
+				$("#aries-showcase iframe" + _dataTab_).attr("src", _dataPage_);
+
+				setTimeout(function () {
+
+					/*
+					var elems = $(parentSelect).nextAll(), count = elems.length;
+
+					elems.each(function (i) {
+					  $(this).fadeOut(200, function () {
+
+					    $(this).remove(); 
+					    if (!--count) doMyThing();
+
+					  });
+					});
+
+					var toggleClick = $(this);
+					var toggleDiv = toggleClick.attr("rel");
+					*/
+
+					var _currentTitle_ = $("#aries-showcase iframe" + _dataTab_).contents().find("title").html();
+					// $("#tab-wrapper .tab").text(_currentTitle_);
+
+					/*
+					$(".videotitle").bind("keyup", function () {
+
+						var data = $(this).attr("data-id");
+						var title = $(this).val();
+						$(".videodata[data-id*=" + data + "]").text(title);
+
+					});
+					*/
+
+					$("#aries-showcase iframe").bind("load", function () {
+
+						// var data = $(this).attr("data-id");
+						// var title = $(this).val();
+						$(".tab[data-tab=" + _dataTab_ + "]").text(_currentTitle_);
+
+					});
+
+					/*
+					$("div").filter(function () {
+					    return $(this).text().match(/mod/);
+					}).html("Matched!");
+					*/
+
+					console.log("New tab shit #3: " + _currentTitle_);
+					
+					/*
+					var _currentTitle_ = $("#aries-showcase iframe" + _dataTab_).contents().find("title").html();
+					$(".tab").text(_currentTitle_);
+					// $('[data-item="' + _dataTab_ + '"]').text(_currentTitle_);
+					// [data-item="#tab2"]
+
+					// foo = 'winter';
+					// $('[data-item="'+foo+'"]').css('background':'red');
+
+					// console.log("New tab shit #4: " + '[data-item="' + _dataTab_ + '"]');
+					console.log("New tab shit #4: " + ".tab" + '[data-item="' + _dataTab_ + '"]');
+					// console.log("New tab shit #3: " + _currentTitle_);
+					*/
+
+				}, 500);
+
+				console.log("New tab shit #1: " + _dataPage_);
+				console.log("New tab shit #2: " + _dataTab_);
+
+			});
+
 			nw.win.maximize();
 			nw.win.show();
+
 		}
 
 		// $("#url-bar").focus();

@@ -1,6 +1,7 @@
 {
 	"name": "Aries",
 	"description": "A web browser for hikari",
+	// "icon": "",
 	"inject-js-start": "resources/scripts/_check.js",
 	"main": "app://aries/index.html",
 	"maintainers": [{
@@ -13,7 +14,7 @@
 		"type": "git",
 		"url": "https://github.com/IdeasNeverCease/Aries.git"
 	}],
-	"version": "0.1",
+	"version": "0.2",
 	"window": {
 		// "width": 1000,
 		// "height": 600,
