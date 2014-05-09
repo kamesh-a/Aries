@@ -135,7 +135,7 @@
 				var _windowID_ = $(this).attr("id");
 				var _windowURL_ = $(this).attr("src");
 				// var _windowTitle_ = $(this).contents().find("title").html();
-				// var _tabTitle_ = $("#" + _windowID_);
+				var _tabTitle_ = $("#" + _windowID_);
 
 				$("#tab-wrapper button").attr("data-tab", _tabTitle_);
 				// $("#tab-wrapper button").attr("data-tab", "#" + _windowID_);
@@ -147,6 +147,10 @@
 
 			});
 
+		});
+
+		$(document).on("load", "iframe.active", function () {
+			
 		});
 		*/
 
@@ -190,15 +194,19 @@
 
 		});
 
+		// Things to do before Aries starts
 		onload = function() {
 
+			// Reload tabs and windows of previous session
 			$("#tab-wrapper .tab").each(function () {
 
 				var _dataTab_ = $(this).attr("data-tab");
 				var _dataPage_ = $(this).attr("data-page");
 
+				// Set window URL via associated tab [data-page]
 				$("#aries-showcase iframe" + _dataTab_).attr("src", _dataPage_);
 
+				// Grab page title and attach to associated tab
 				setTimeout(function () {
 
 					var _currentTitle_ = $("#aries-showcase iframe" + _dataTab_).contents().find("title").html();
@@ -216,6 +224,7 @@
 
 			});
 
+			// Let's get this shit started!
 			nw.win.maximize();
 			nw.win.show();
 
@@ -286,7 +295,9 @@
 			// check to see if input is a URL
 			// apparently, encodeURIComponent fucks up URLs. Hooray for learning!
 			var encodeURL = "http://" + encodeURI($("#url-bar").val());
+
 			$("iframe.active").attr("src", encodeURL);
+			$("button.active").attr("data-page", encodeURL);
 
 			console.log(a); // should be true, go to actual site
 
@@ -294,10 +305,18 @@
 
 			// looks like input isn't a URL, so search!
 			var encodeSearch = "https://next.duckduckgo.com/?q=" + encodeURIComponent($("#url-bar").val());
+
 			$("iframe.active").attr("src", encodeSearch);
+			$("button.active").attr("data-page", encodeSearch);
 
 			console.log(a); // should be true, search DDG
 
 		}
+
+		var _currentTitle_ = $("iframe.active").contents().find("title").html();
+
+		$("iframe.active").bind("load", function () {
+			$("button.active").text(_currentTitle_);
+		});
 
 	}

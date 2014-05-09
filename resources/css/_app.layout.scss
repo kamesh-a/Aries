@@ -82,11 +82,10 @@ body {
 }
 
 #aries-powerbar {
-	background-color: #eee; // #365d98
+	background-color: lighten($dark-gray, 68%);
 }
 
 #browsing-actions, #url-bar, #window-actions {
-	// float: left;
 	position: absolute;
 }
 
@@ -110,7 +109,7 @@ body {
 #tab-wrapper {
 	width: auto; height: 31px;
 
-	background-color: #eee;
+	background-color: lighten($dark-gray, 68%);
 	display: none;
 	position: absolute;
 	right: 92px;
@@ -127,9 +126,20 @@ body {
 		color: rgba($black, 0.3);
 		cursor: pointer;
 		float: left;
+		overflow: hidden;
+
+		@include ellipsis;
 
 		// add blur to right of tab for long titles
-		@include ellipsis;
+		&:before {
+			width: 50px; height: 31px;
+			top: 0; right: 0;
+
+			background: linear-gradient(left, rgba($dark-gray, 0) 0%, lighten($dark-gray, 68%) 100%);
+			background: -webkit-linear-gradient(left, rgba($dark-gray, 0) 0%, lighten($dark-gray, 68%) 100%);
+			content: "";
+			position: absolute;
+		}
 	}
 
 	.active {
