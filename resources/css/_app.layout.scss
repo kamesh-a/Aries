@@ -127,6 +127,7 @@ body {
 		cursor: pointer;
 		float: left;
 		overflow: hidden;
+		position: relative;
 
 		@include ellipsis;
 
