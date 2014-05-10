@@ -131,6 +131,16 @@ body {
 
 		@include ellipsis;
 
+		.tab-favicon, .tab-title {
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		.tab-favicon {
+			width: 16px; height: 16px;
+			margin: 0 0.2rem 0 0;
+		}
+
 		// add blur to right of tab for long titles
 		&:before {
 			width: 50px; height: 31px;
