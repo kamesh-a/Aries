@@ -185,6 +185,16 @@
 
 		});
 
+		$(document).on("click", ".app-go-back", function () {
+			window.history.back();
+		});
+
+		$(document).on("click", ".app-go-forth", function () {
+			window.history.forward();
+		});
+
+		// window.history.back();
+
 		/*
 		// node-webkit takes over this shortcut at the moment
 		// Close current iframe page
