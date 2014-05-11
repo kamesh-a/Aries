@@ -39,6 +39,18 @@ body {
 	-webkit-user-select: none;
 }
 
+button {
+	margin: 0; padding: 0;
+
+	background-color: transparent;
+	border: 0;
+	color: rgba(25, 25, 25, 0.3);
+	font-family: "Ionicons";
+	font-size: 16px;
+	opacity: 1;
+	transition: all 0.2s ease;
+}
+
 /// HTML5 DISPLAY RESET ///////////////////////////////////////////////////////////////////////////////
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {

@@ -8,21 +8,42 @@
 
 		<link rel="stylesheet" href="resources/css/style.css"/>
 
+		<script src="resources/scripts/modernizr.custom.js"></script>
 		<script src="resources/scripts/vendor/jquery-2.1.0.min.js"></script>
+		<!--/
 		<script src="resources/scripts/mousetrap.min.js"></script>
 		<script src="resources/scripts/vendor/require.js"></script>
 		<script src="resources/scripts/tabby.js"></script>
 		<script src="resources/scripts/aries.js"></script>
+		/-->
 
 	</head>
 
 	<body>
 
-		<p>Something will be here, at some point.</p>
+		<button class="start-settings"></button>
+
+		<ul id="start-item-wrapper">
+			<li class="start-item">
+				<!--/ <button></button> /-->
+				<button id="trigger-overlay" type="button"></button>
+			</li>
+		</ul>
+
+		<div class="overlay overlay-scale">
+			<button type="button" class="overlay-close"></button>
+
+			<div>
+				Something will go here later.
+			</div>
+		</div>
 
 		<script>
-			tabby.init();
+			// tabby.init();
 		</script>
+
+		<script src="resources/scripts/classie.js"></script>
+		<script src="resources/scripts/demo1.js"></script>
 
 	</body>
 
