@@ -63,20 +63,12 @@
 			// Remove focus from other tabs and windows
 			$(".tab, .tabs-pane").removeClass("active");
 
-			$("#tab-wrapper").append("<button class='tab active' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-title'>Start Page</span></button>");
+			$("#tab-wrapper").append("<button class='tab active' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-close'></span><span class='tab-title'>Start Page</span></button>");
 			$("#aries-showcase").append("<iframe class='tabs-pane active' src='start.html' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Aries/0.1.0' nwdisable nwfaketop></iframe>");
 
 			$("#url-bar").val("app://aries/start.html");
 
 			var tabID = 0, windowID = 0;
-
-			/*
-			var currentURL = $("iframe.active").get(0).contentWindow.location; // get current iframe URL
-			var currentTitle = $("iframe.active").contents().find("title").html(); // get current iframe title
-
-			$("#url-bar").val(currentURL);
-			$("button.active").text(currentTitle);
-			*/
 
 			// Add a new tab
 			$("#tab-wrapper .tab").each(function () {
@@ -104,6 +96,7 @@
 
 			// Reinitialize tabby to recognize new tab and window
 			tabby.init();
+			tabHover();
 
 			console.log("New tab added to Aries");
 
@@ -150,7 +143,6 @@
 		});
 
 		$(document).on("load", "iframe.active", function () {
-			
 		});
 		*/
 
@@ -160,17 +152,10 @@
 			var _gotIT = $("iframe" + _tabID).attr("src");
 			// var _windowID = $(this).attr("data-page");
 
-			var currentURL = $("#aries-showcase iframe.active").get(0).contentWindow.location; // get current iframe URL
-
+			// var currentURL = $("#aries-showcase iframe.active").get(0).contentWindow.location; // get current iframe URL
+			var currentURL = $("#aries-showcase iframe.active").attr("src"); // get current iframe URL
 			var currentTitle = $("#aries-showcase iframe.active").contents().find("title").html(); // get current iframe title
 			var currentIcon = $("#aries-showcase iframe.active").contents().find("link[rel='shortcut icon']").attr("href");
-
-			/*
-			$.get("ajax/test.html", function(data) {
-			  $(".result").html(data);
-			  // alert("Load was performed.");
-			});
-			*/
 
 			// rel="shortcut icon" // var url = $('#aries-showcase iframe.active link[rel="shortcut icon"]')[0].href;
 
@@ -185,6 +170,21 @@
 
 		});
 
+		$(document).on("click", ".tab-close", function () {
+
+			var _tabID = $(this).parent().attr("data-tab");
+			var _gotIT = $("iframe" + _tabID);
+
+			// Make sure the next tab and window take focus
+			$(this).parent().next(".tab").addClass("active");
+			$(_gotIT).next("iframe").addClass("active");
+
+			// Close the current tab and window
+			$(this).parent().remove();
+			$(_gotIT).remove();
+
+		});
+
 		$(document).on("click", ".app-go-back", function () {
 			window.history.back();
 		});
@@ -192,8 +192,6 @@
 		$(document).on("click", ".app-go-forth", function () {
 			window.history.forward();
 		});
-
-		// window.history.back();
 
 		/*
 		// node-webkit takes over this shortcut at the moment
@@ -246,6 +244,8 @@
 				console.log("New tab shit #2: " + _dataTab_);
 
 			});
+
+			tabHover();
 
 			// Let's get this shit started!
 			nw.win.maximize();
@@ -300,6 +300,24 @@
 
 	}
 	*/
+
+	function tabHover() {
+
+		$(".tab").each(function () {
+
+			$(this).on("mouseenter", function () {
+				$(".tab-favicon", this).hide();
+				$(".tab-close", this).show();
+			});
+
+			$(this).on("mouseleave", function () {
+				$(".tab-favicon", this).show();
+				$(".tab-close", this).hide();
+			});
+
+		});
+
+	}
 
 	// Go to a website, or search for something
 	function goThere() {
