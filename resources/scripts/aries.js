@@ -198,11 +198,11 @@
 			e.preventDefault();
 			e.stopPropagation();
 
-			$("#bt-menu").toggleClass("bt-menu-open");
+			$("#bt-menu").toggleClass("bt-menu--is-open");
 
 			$(document).one("click", function(e) {
 				if($("#bt-menu").has(e.target).length === 0) {
-					$("#bt-menu").removeClass("bt-menu-open");
+					$("#bt-menu").removeClass("bt-menu--is-open");
 				}
 			});
 

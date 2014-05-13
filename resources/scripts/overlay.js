@@ -14,8 +14,8 @@
 
 	function toggleOverlay() {
 
-		if (classie.has(overlay, "open")) {
-			classie.remove(overlay, "open");
+		if (classie.has(overlay, "overlay-scale--is-open")) {
+			classie.remove(overlay, "overlay-scale--is-open");
 			classie.add(overlay, "close");
 
 			var onEndTransitionFn = function (ev) {
@@ -35,7 +35,7 @@
 				onEndTransitionFn();
 			}
 		} else if (!classie.has(overlay, "close")) {
-			classie.add(overlay, "open");
+			classie.add(overlay, "overlay-scale--is-open");
 		}
 
 	}
