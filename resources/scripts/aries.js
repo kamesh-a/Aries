@@ -193,6 +193,21 @@
 			window.history.forward();
 		});
 
+		$(document).on("click", ".app-settings", function (e) {
+
+			e.preventDefault();
+			e.stopPropagation();
+
+			$("#bt-menu").toggleClass("bt-menu-open");
+
+			$(document).one("click", function(e) {
+				if($("#bt-menu").has(e.target).length === 0) {
+					$("#bt-menu").removeClass("bt-menu-open");
+				}
+			});
+
+		});
+
 		/*
 		// node-webkit takes over this shortcut at the moment
 		// Close current iframe page

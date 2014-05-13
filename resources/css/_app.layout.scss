@@ -160,7 +160,11 @@ body {
 			transition: all 0.2s ease;
 
 			&:before { content: "\f2bd"; }
-			&:hover:before { content: "\f2bc"; }
+
+			&:hover:before {
+				color: $red;
+				content: "\f2bc";
+			}
 		}
 
 		// add blur to right of tab for long titles
