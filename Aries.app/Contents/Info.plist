@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>12C3006</string>
+	<string>12F45</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -50,17 +50,17 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1</string>
+	<string>35.0.1916.113</string>
 	<key>CFBundleVersion</key>
-	<string></string>
+	<string>1916.113</string>
 	<key>DTSDKBuild</key>
-	<string>11E52</string>
+	<string>12F37</string>
 	<key>DTSDKName</key>
-	<string>macosx10.7</string>
+	<string>macosx10.8</string>
 	<key>DTXcode</key>
-	<string>0452</string>
+	<string>0511</string>
 	<key>DTXcodeBuild</key>
-	<string>4G2008a</string>
+	<string>5B1008</string>
 	<key>LSFileQuarantineEnabled</key>
 	<true/>
 	<key>LSMinimumSystemVersion</key>
@@ -70,7 +70,7 @@
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<true/>
 	<key>SCMRevision</key>
-	<string>239963</string>
+	<string>270019</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
@@ -83,7 +83,7 @@
 			<key>UTTypeIconFile</key>
 			<string>aries.icns</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.intel.aries.app</string>
+			<string>com.intel.nw.app</string>
 			<key>UTTypeReferenceURL</key>
 			<string>https://github.com/rogerwang/node-webkit/wiki/How-to-package-and-distribute-your-apps</string>
 			<key>UTTypeTagSpecification</key>
@@ -92,10 +92,10 @@
 				<string>Aries</string>
 				<key>public.filename-extension</key>
 				<array>
-					<string>aries</string>
+					<string>nw</string>
 				</array>
 				<key>public.mime-type</key>
-				<string>application/x-aries-browser</string>
+				<string>application/x-node-webkit-app</string>
 			</dict>
 		</dict>
 	</array>

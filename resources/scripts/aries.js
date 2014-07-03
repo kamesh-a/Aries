@@ -19,19 +19,13 @@
 		var $vW = $(window).width(), $vH = $(window).height();
 
 		// Minimize Aries
-		$(".app-minimize").on("click", function () {
-			nw.win.minimize();
-		});
+		$(".app-minimize").on("click", function () { nw.win.minimize(); });
 
 		// Un/Maximize Aries
-		$(".app-maximize").on("click", function () {
-			nw.win.maximize();
-		});
+		$(".app-maximize").on("click", function () { nw.win.maximize(); });
 
 		// Close Aries
-		$(".app-close").on("click", function () {
-			nw.win.close();
-		});
+		$(".app-close").on("click", function () { nw.win.close(); });
 
 		// Set URL bar width
 		$("#url-bar").css("width", nw.win.window.innerWidth - 190 + "px");
@@ -63,7 +57,7 @@
 			// Remove focus from other tabs and windows
 			$(".tab, .tabs-pane").removeClass("active");
 
-			$("#tab-wrapper").append("<button class='tab active' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-close'></span><span class='tab-title'>Start Page</span></button>");
+			$("#tab-wrapper").append("<button class='tab active' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-close'></span><span class='tab-title'></span></button>");
 			$("#aries-showcase").append("<iframe class='tabs-pane active' src='start.html' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Aries/0.1.0' nwdisable nwfaketop></iframe>");
 
 			$("#url-bar").val("app://aries/start.html");
@@ -231,7 +225,7 @@
 		});
 
 		// Things to do before Aries starts
-		onload = function() {
+		onload = function () {
 
 			// Reload tabs and windows of previous session
 			$("#tab-wrapper .tab").each(function () {
@@ -251,12 +245,12 @@
 						$(".tab[data-tab=" + _dataTab_ + "] .tab-title").text(_currentTitle_);
 					});
 
-					console.log("New tab shit #3: " + _currentTitle_);
+					console.log("#3 — Tab Title: " + _currentTitle_);
 
 				}, 50);
 
-				console.log("New tab shit #1: " + _dataPage_);
-				console.log("New tab shit #2: " + _dataTab_);
+				console.log("#1 — Tab URL: " + _dataPage_);
+				console.log("#2 — Tab ID: " + _dataTab_);
 
 			});
 
@@ -334,6 +328,24 @@
 
 	}
 
+	function pageLoad() {
+
+		$("#aries-showcase iframe.active").load(function () {
+
+			$("#url-bar").val(this.contentWindow.location.href);
+
+			var currentTitle = $(this).contents().find("title").html(); // get current iframe title
+			var currentIcon = $(this).contents().find("link[rel='shortcut icon']").attr("href");
+
+			$("button.active .tab-title").html(currentTitle);
+			$("button.active .tab-favicon").attr("src", currentIcon);
+
+			console.log(this.contentWindow.location.href);
+
+		});
+
+	}
+
 	// Go to a website, or search for something
 	function goThere() {
 
@@ -343,10 +355,37 @@
 		// TLD list: https://data.iana.org/TLD/tlds-alpha-by-domain.txt
 		// used http://convertcase.net to take IANA's list out of caps
 		// var pattern = new RegExp('^((http|https|ftp|gopher|ssh|telnet|localhost):\/\/)?'+ // protocol
-		var url = /(\S+\.(ac|academy|actor|ad|ae|aero|af|ag|agency|ai|airforce|al|am|an|ao|aq|ar|archi|arpa|as|asia|associates|at|au|aw|ax|axa|az|ba|bar|bargains|bayern|bb|bd|be|berlin|best|bf|bg|bh|bi|bid|bike|biz|bj|black|blackfriday|blue|bm|bn|bo|boutique|br|bs|bt|build|builders|buzz|bv|bw|by|bz|ca|cab|camera|camp|capital|cards|care|career|careers|cash|cat|catering|cc|cd|center|ceo|cf|cg|ch|cheap|christmas|ci|citic|ck|cl|cleaning|clinic|clothing|club|cm|cn|co|codes|coffee|college|cologne|com|community|company|computer|condos|construction|consulting|contractors|cooking|cool|coop|country|cr|creditcard|cruises|cu|cv|cw|cx|cy|cz|dance|dating|de|democrat|dental|desi|diamonds|directory|discount|dj|dk|dm|dnp|do|domains|dz|ec|edu|education|ee|eg|email|engineering|enterprises|equipment|er|es|estate|et|eu|eus|events|exchange|expert|exposed|fail|farm|feedback|fi|finance|financial|fish|fishing|fitness|fj|fk|flights|florist|fm|fo|foo|foundation|fr|frogans|fund|furniture|futbol|ga|gal|gallery|gb|gd|ge|gf|gg|gh|gi|gift|gl|glass|globo|gm|gmo|gn|gop|gov|gp|gq|gr|graphics|gratis|gripe|gs|gt|gu|guitars|guru|gw|gy|haus|hk|hm|hn|holdings|holiday|horse|house|hr|ht|hu|id|ie|il|im|immobilien|in|industries|info|ink|institute|insure|int|international|investments|io|iq|ir|is|it|je|jetzt|jm|jo|jobs|jp|kaufen|ke|kg|kh|ki|kim|kitchen|kiwi|km|kn|koeln|kp|kr|kred|kw|ky|kz|la|land|lb|lc|lease|li|lighting|limited|limo|link|lk|london|lr|ls|lt|lu|luxury|lv|ly|ma|maison|management|mango|marketing|mc|md|me|media|meet|menu|mg|mh|miami|mil|mk|ml|mm|mn|mo|mobi|moda|moe|monash|moscow|mp|mq|mr|ms|mt|mu|museum|mv|mw|mx|my|mz|na|nagoya|name|nc|ne|net|neustar|nf|ng|ni|ninja|nl|no|np|nr|nu|nyc|nz|okinawa|om|onl|org|pa|paris|partners|parts|pe|pf|pg|ph|photo|photography|photos|pics|pictures|pink|pk|pl|plumbing|pm|pn|post|pr|pro|productions|properties|ps|pt|pub|pw|py|qa|qpon|quebec|re|recipes|red|reisen|ren|rentals|repair|report|rest|reviews|rich|ro|rocks|rodeo|rs|ru|ruhr|rw|ryukyu|sa|saarland|sb|sc|schule|sd|se|services|sexy|sg|sh|shiksha|shoes|si|singles|sj|sk|sl|sm|sn|so|social|sohu|solar|solutions|soy|sr|st|su|supplies|supply|support|surgery|sv|sx|sy|systems|sz|tattoo|tax|tc|td|technology|tel|tf|tg|th|tienda|tips|tj|tk|tl|tm|tn|to|today|tokyo|tools|town|toys|tp|tr|trade|training|travel|tt|tv|tw|tz|ua|ug|uk|university|uno|us|uy|uz|va|vacations|vc|ve|vegas|ventures|vg|vi|viajes|villas|vision|vn|vodka|vote|voting|voto|voyage|vu|wang|watch|webcam|wed|wf|wien|wiki|works|ws|wtc|wtf|xn--3bst00m|xn--3ds443g|xn--3e0b707e|xn--45brj9c|xn--55qw42g|xn--55qx5d|xn--6frz82g|xn--6qq986b3xl|xn--80adxhks|xn--80ao21a|xn--80asehdb|xn--80aswg|xn--90a3ac|xn--c1avg|xn--cg4bki|xn--clchc0ea0b2g2a9gcd|xn--czru2d|xn--d1acj3b|xn--fiq228c5hs|xn--fiq64b|xn--fiqs8s|xn--fiqz9s|xn--fpcrj9c3d|xn--fzc2c9e2c|xn--gecrj9c|xn--h2brj9c|xn--i1b6b1a6a2e|xn--io0a7i|xn--j1amh|xn--j6w193g|xn--kprw13d|xn--kpry57d|xn--l1acc|xn--lgbbat1ad8j|xn--mgb9awbf|xn--mgba3a4f16a|xn--mgbaam7a8h|xn--mgbab2bd|xn--mgbayh7gpa|xn--mgbbh1a71e|xn--mgbc0a9azcg|xn--mgberp4a5d4ar|xn--mgbx4cd0ab|xn--ngbc5azd|xn--nqv7f|xn--nqv7fs00ema|xn--o3cw4h|xn--ogbpf8fl|xn--p1ai|xn--pgbs0dh|xn--q9jyb4c|xn--rhqv96g|xn--s9brj9c|xn--ses554g|xn--unup4y|xn--wgbh1c|xn--wgbl6a|xn--xkc2al3hye2a|xn--xkc2dl3a5ee0h|xn--yfro4i67o|xn--ygbi2ammx|xn--zfr164b|xxx|xyz|ye|yokohama|yt|za|zm|zone|zw)(\/\S+)?)/;
+		// var url = /(\S+\.(ac|academy|actor|ad|ae|aero|af|ag|agency|ai|airforce|al|am|an|ao|aq|ar|archi|arpa|as|asia|associates|at|au|aw|ax|axa|az|ba|bar|bargains|bayern|bb|bd|be|berlin|best|bf|bg|bh|bi|bid|bike|biz|bj|black|blackfriday|blue|bm|bn|bo|boutique|br|bs|bt|build|builders|buzz|bv|bw|by|bz|ca|cab|camera|camp|capital|cards|care|career|careers|cash|cat|catering|cc|cd|center|ceo|cf|cg|ch|cheap|christmas|ci|citic|ck|cl|cleaning|clinic|clothing|club|cm|cn|co|codes|coffee|college|cologne|com|community|company|computer|condos|construction|consulting|contractors|cooking|cool|coop|country|cr|creditcard|cruises|cu|cv|cw|cx|cy|cz|dance|dating|de|democrat|dental|desi|diamonds|directory|discount|dj|dk|dm|dnp|do|domains|dz|ec|edu|education|ee|eg|email|engineering|enterprises|equipment|er|es|estate|et|eu|eus|events|exchange|expert|exposed|fail|farm|feedback|fi|finance|financial|fish|fishing|fitness|fj|fk|flights|florist|fm|fo|foo|foundation|fr|frogans|fund|furniture|futbol|ga|gal|gallery|gb|gd|ge|gf|gg|gh|gi|gift|gl|glass|globo|gm|gmo|gn|gop|gov|gp|gq|gr|graphics|gratis|gripe|gs|gt|gu|guitars|guru|gw|gy|haus|hk|hm|hn|holdings|holiday|horse|house|hr|ht|hu|id|ie|il|im|immobilien|in|industries|info|ink|institute|insure|int|international|investments|io|iq|ir|is|it|je|jetzt|jm|jo|jobs|jp|kaufen|ke|kg|kh|ki|kim|kitchen|kiwi|km|kn|koeln|kp|kr|kred|kw|ky|kz|la|land|lb|lc|lease|li|lighting|limited|limo|link|lk|london|lr|ls|lt|lu|luxury|lv|ly|ma|maison|management|mango|marketing|mc|md|me|media|meet|menu|mg|mh|miami|mil|mk|ml|mm|mn|mo|mobi|moda|moe|monash|moscow|mp|mq|mr|ms|mt|mu|museum|mv|mw|mx|my|mz|na|nagoya|name|nc|ne|net|neustar|nf|ng|ni|ninja|nl|no|np|nr|nu|nyc|nz|okinawa|om|onl|org|pa|paris|partners|parts|pe|pf|pg|ph|photo|photography|photos|pics|pictures|pink|pk|pl|plumbing|pm|pn|post|pr|pro|productions|properties|ps|pt|pub|pw|py|qa|qpon|quebec|re|recipes|red|reisen|ren|rentals|repair|report|rest|reviews|rich|ro|rocks|rodeo|rs|ru|ruhr|rw|ryukyu|sa|saarland|sb|sc|schule|sd|se|services|sexy|sg|sh|shiksha|shoes|si|singles|sj|sk|sl|sm|sn|so|social|sohu|solar|solutions|soy|sr|st|su|supplies|supply|support|surgery|sv|sx|sy|systems|sz|tattoo|tax|tc|td|technology|tel|tf|tg|th|tienda|tips|tj|tk|tl|tm|tn|to|today|tokyo|tools|town|toys|tp|tr|trade|training|travel|tt|tv|tw|tz|ua|ug|uk|university|uno|us|uy|uz|va|vacations|vc|ve|vegas|ventures|vg|vi|viajes|villas|vision|vn|vodka|vote|voting|voto|voyage|vu|wang|watch|webcam|wed|wf|wien|wiki|works|ws|wtc|wtf|xn--3bst00m|xn--3ds443g|xn--3e0b707e|xn--45brj9c|xn--55qw42g|xn--55qx5d|xn--6frz82g|xn--6qq986b3xl|xn--80adxhks|xn--80ao21a|xn--80asehdb|xn--80aswg|xn--90a3ac|xn--c1avg|xn--cg4bki|xn--clchc0ea0b2g2a9gcd|xn--czru2d|xn--d1acj3b|xn--fiq228c5hs|xn--fiq64b|xn--fiqs8s|xn--fiqz9s|xn--fpcrj9c3d|xn--fzc2c9e2c|xn--gecrj9c|xn--h2brj9c|xn--i1b6b1a6a2e|xn--io0a7i|xn--j1amh|xn--j6w193g|xn--kprw13d|xn--kpry57d|xn--l1acc|xn--lgbbat1ad8j|xn--mgb9awbf|xn--mgba3a4f16a|xn--mgbaam7a8h|xn--mgbab2bd|xn--mgbayh7gpa|xn--mgbbh1a71e|xn--mgbc0a9azcg|xn--mgberp4a5d4ar|xn--mgbx4cd0ab|xn--ngbc5azd|xn--nqv7f|xn--nqv7fs00ema|xn--o3cw4h|xn--ogbpf8fl|xn--p1ai|xn--pgbs0dh|xn--q9jyb4c|xn--rhqv96g|xn--s9brj9c|xn--ses554g|xn--unup4y|xn--wgbh1c|xn--wgbl6a|xn--xkc2al3hye2a|xn--xkc2dl3a5ee0h|xn--yfro4i67o|xn--ygbi2ammx|xn--zfr164b|xxx|xyz|ye|yokohama|yt|za|zm|zone|zw)(\/\S+)?)/;
 		// var url = /^(ht|f)tp(s?)\:\/\/(([a-zA-Z0-9\-\._]+(\.[a-zA-Z0-9\-\._]+)+)|localhost)(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?([\d\w\.\/\%\+\-\=\&amp;\?\:\\\&quot;\'\,\|\~\;]*)$/;
+		// John Gruber's URL regex, modified for JavaScript | http://stackoverflow.com/a/6927878/1167646
+		// var url = /\b((?:[a-z][\w-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/i;
+		// var url = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
+		var url = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.‌​\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[‌​6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1‌​,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00‌​a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u‌​00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/i;
+
 		var a = url.test($("#url-bar").val());
 
+		// check to see if input is a URL
+		// apparently, encodeURIComponent fucks up URLs. Hooray for learning!
+		var encodeURL = "http://" + encodeURI($("#url-bar").val());
+		// var encodeURL = encodeURI($("#url-bar").val());
+
+		$("iframe.active").attr("src", encodeURL);
+		$("button.active").attr("data-page", encodeURL);
+
+		console.log(a); // should be true, go to actual site
+
+		setTimeout(function () {
+			var currentTitle = $("iframe.active").contents().find("title").html(); // get current iframe title
+			var currentIcon = $("iframe.active").contents().find("link[rel='shortcut icon']").attr("href");
+
+			$("button.active .tab-title").html(currentTitle);
+			$("button.active .tab-favicon").attr("src", currentIcon);
+
+			$("iframe.active").focus();
+		}, 500);
+
+		/*
+		// if this is active, can't access sites like localhost:4000
 		if (url.test($("#url-bar").val())) {
 
 			// check to see if input is a URL
@@ -362,7 +401,7 @@
 		} else {
 
 			// looks like input isn't a URL, so search!
-			var encodeSearch = "https://next.duckduckgo.com/?q=" + encodeURIComponent($("#url-bar").val());
+			var encodeSearch = "https://duckduckgo.com/?q=" + encodeURIComponent($("#url-bar").val());
 
 			$("iframe.active").attr("src", encodeSearch);
 			$("button.active").attr("data-page", encodeSearch);
@@ -370,5 +409,30 @@
 			console.log(a); // should be true, search DDG
 
 		}
+		*/
+
+		/*
+		$(document).on("click", ".tab", function () {
+
+			var _tabID = $(this).attr("data-tab");
+			var _gotIT = $("iframe" + _tabID).attr("src");
+
+			var currentURL = $("#aries-showcase iframe.active").attr("src"); // get current iframe URL
+			var currentTitle = $("#aries-showcase iframe.active").contents().find("title").html(); // get current iframe title
+			var currentIcon = $("#aries-showcase iframe.active").contents().find("link[rel='shortcut icon']").attr("href");
+
+			// rel="shortcut icon" // var url = $('#aries-showcase iframe.active link[rel="shortcut icon"]')[0].href;
+
+			$("#url-bar").val(currentURL);
+			$("#tab-wrapper button.active .tab-title").text(currentTitle);
+			$("#tab-wrapper button.active .tab-favicon").attr("src", currentIcon);
+
+			console.log(_tabID);
+			console.log(_gotIT);
+			console.log(currentIcon);
+			// console.log(_windowID);
+
+		});
+		*/
 
 	}
