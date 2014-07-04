@@ -83,6 +83,7 @@ body {
 
 #aries-powerbar {
 	background-color: lighten($dark-gray, 68%);
+	-webkit-app-region: no-drag;
 }
 
 #browsing-actions, #url-bar, #window-actions {
