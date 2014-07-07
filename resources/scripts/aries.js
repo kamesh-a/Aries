@@ -16,6 +16,24 @@
 			path: require("path")
 		};
 
+		var AppMenu = function () {
+			var nw = require("nw.gui");
+			win = nw.Window.get();
+			var nativeMenuBar = new nw.Menu({ type: "menubar" });
+			nativeMenuBar.createMacBuiltin("Aries");
+			win.menu = nativeMenuBar;
+		};
+
+		AppMenu;
+
+		/*
+		var nw = require("nw.gui");
+		win = nw.Window.get();
+		var nativeMenuBar = new nw.Menu({ type: "menubar" });
+		nativeMenuBar.createMacBuiltin("Aries");
+		win.menu = nativeMenuBar;
+		*/
+
 		var $vW = $(window).width(), $vH = $(window).height();
 
 		// Minimize Aries
@@ -50,116 +68,35 @@
 
 		});
 
-		// Keyboard shortcuts courtesy of Mousetrap. Holla!
-		// https://github.com/ccampbell/mousetrap
-		Mousetrap.bind(["command+t", "ctrl+t"], function () {
-
-			// Remove focus from other tabs and windows
-			$(".tab, .tabs-pane").removeClass("active");
-
-			$("#tab-wrapper").append("<button class='tab active' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-close'></span><span class='tab-title'></span></button>");
-			$("#aries-showcase").append("<iframe class='tabs-pane active' src='start.html' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Aries/0.1.0' nwdisable nwfaketop></iframe>");
-
-			$("#url-bar").val("app://aries/start.html");
-
-			var tabID = 0, windowID = 0;
-
-			// Add a new tab
-			$("#tab-wrapper .tab").each(function () {
-
-				tabID++;
-				$(this).attr("data-tab", "#tab" + tabID);
-
-				var dataPage = $(this).attr("data-page");
-				console.log(dataPage);
-
-			});
-
-			// Add a new window
-			$("#aries-showcase iframe").each(function () {
-
-				windowID++;
-				$(this).attr("id", "tab" + windowID);
-				// $(this).attr("src", dataPage);
-
-			}).css({ "width": nw.win.window.innerWidth, "height": nw.win.window.innerHeight - 31 + "px" });
-
-			$("iframe.active").each(function () {
-			  this.contentWindow.location.reload(true);
-			});
-
-			// Reinitialize tabby to recognize new tab and window
-			tabby.init();
-			tabHover();
-
-			console.log("New tab added to Aries");
-
-		});
-
-		// Reload current iframe page
-		Mousetrap.bind(["command+r", "ctrl+r"], function () {
-
-			$("iframe.active").each(function () {
-			  this.contentWindow.location.reload(true);
-			});
-
-			console.log("Reloaded window");
-
-		});
-
-		/*
-		$("#aries-showcase iframe").each(function () {
-
-			// $(document).on("load", "#aries-showcase iframe", function () {
-			$("iframe").load(function () {
-
-				var currentURL = $("#aries-showcase iframe.active").get(0).contentWindow.location; // get current iframe URL
-				var currentTitle = $("#aries-showcase iframe.active").contents().find("title").html(); // get current iframe title
-
-				$("#url-bar").val(currentURL);
-				$("#tab-wrapper button.active").text(currentTitle);
-
-				var _windowID_ = $(this).attr("id");
-				var _windowURL_ = $(this).attr("src");
-				// var _windowTitle_ = $(this).contents().find("title").html();
-				var _tabTitle_ = $("#" + _windowID_);
-
-				$("#tab-wrapper button").attr("data-tab", _tabTitle_);
-				// $("#tab-wrapper button").attr("data-tab", "#" + _windowID_);
-				
-				console.log("iframe window ID " + _windowID_);
-				console.log("iframe window URL " + _windowURL_);
-				// console.log("iframe tab title " + _tabTitle_);
-				// console.log("iframe window URL " + _windowTitle_);
-
-			});
-
-		});
-
-		$(document).on("load", "iframe.active", function () {
-		});
-		*/
-
 		$(document).on("click", ".tab", function () {
 
 			var _tabID = $(this).attr("data-tab");
 			var _gotIT = $("iframe" + _tabID).attr("src");
+			var _title = $("iframe" + _tabID).contents().find("title").html();
 			// var _windowID = $(this).attr("data-page");
 
-			// var currentURL = $("#aries-showcase iframe.active").get(0).contentWindow.location; // get current iframe URL
-			var currentURL = $("#aries-showcase iframe.active").attr("src"); // get current iframe URL
-			var currentTitle = $("#aries-showcase iframe.active").contents().find("title").html(); // get current iframe title
-			var currentIcon = $("#aries-showcase iframe.active").contents().find("link[rel='shortcut icon']").attr("href");
+			// var currentURL = $("#aries-showcase iframe.active").attr("src"); // get current iframe URL
+			// var currentTitle = $("#aries-showcase iframe.active").contents().find("title").html(); // get current iframe title
 
-			// rel="shortcut icon" // var url = $('#aries-showcase iframe.active link[rel="shortcut icon"]')[0].href;
+			// Remove active states for other tabs/windows
+			$("iframe").removeClass("active");
+			$("#tab-wrapper button").removeClass("active");
 
-			$("#url-bar").val(currentURL);
-			$("#tab-wrapper button.active .tab-title").text(currentTitle);
-			$("#tab-wrapper button.active .tab-favicon").attr("src", currentIcon);
+			// Add active states for selected tab/window
+			$("iframe" + _tabID).addClass("active");
+			$(this).addClass("active");
+
+			// $("#url-bar").val(currentURL);
+			$("#url-bar").val(_gotIT);
+			// $(".tab-title", this).text(currentTitle);
+			$(".tab-title", this).text(_title);
+			$(".tab-favicon", this).attr("src", getFavicon);
+			// $("#tab-wrapper button.active .tab-title").text(currentTitle);
+			// $("#tab-wrapper button.active .tab-favicon").attr("src", getFavicon);
 
 			console.log(_tabID);
 			console.log(_gotIT);
-			console.log(currentIcon);
+			// console.log(getFavicon);
 			// console.log(_windowID);
 
 		});
@@ -260,7 +197,7 @@
 			nw.win.maximize();
 			nw.win.show();
 
-		}
+		};
 
 		// $("#url-bar").focus();
 
@@ -291,7 +228,7 @@
 
 			}, 950);
 		}
-		
+	
 	}
 
 	// Titlebar hide functionality
@@ -330,21 +267,138 @@
 
 	function pageLoad() {
 
-		$("#aries-showcase iframe.active").load(function () {
+		NProgress.start();
 
-			$("#url-bar").val(this.contentWindow.location.href);
+		$("iframe.active").bind("load", function () {
 
-			var currentTitle = $(this).contents().find("title").html(); // get current iframe title
-			var currentIcon = $(this).contents().find("link[rel='shortcut icon']").attr("href");
+			var baseURL = this.contentWindow.location.href;
+			var currentTitle = $(this).contents().find("title").html();
+			var currentURL = $("#url-bar").val(baseURL);
 
+			$("#url-bar").val(baseURL);
 			$("button.active .tab-title").html(currentTitle);
-			$("button.active .tab-favicon").attr("src", currentIcon);
+			$("button.active .tab-favicon").attr("src", getFavicon);
+			// $("iframe.active").attr("src", currentURL);
 
-			console.log(this.contentWindow.location.href);
+			// console.log(baseURL + " | " + currentURL);
+
+			// Start progress bar when clicking <a> inside window
+			var iframe = $(this).contents();
+
+			iframe.find("a").click(function () {
+
+				NProgress.start();
+
+				$("button.active .tab-title").html(currentTitle);
+				$("button.active .tab-favicon").attr("src", getFavicon);
+
+				// var currentURL = $("#url-bar").val(this.contentWindow.location.href);
+				// var currentURL = $(this).parent("iframe").contentWindow.location.href;
+				// var _updatedURL = $(this).attr("data-page");
+
+				/*
+				setTimeout(function () {
+					$("iframe.active").attr("src", currentURL);
+					console.log("Clicked a link" + currentURL);
+				}, 1000);
+				*/
+
+			});
+
+			// $("iframe.active").attr("src", currentURL);
 
 		});
 
+		/*
+		$("iframe.active").ready(function () {
+			$(this).focus();
+			$(this).attr("src", this.contentWindow.location.href);
+		});
+		*/
+
+		// $("iframe.active").attr("src", this.contentWindow.location.href);
+
+		// Keyboard shortcuts courtesy of Mousetrap. Holla!
+		// https://github.com/ccampbell/mousetrap
+		Mousetrap.bind(["command+t", "ctrl+t"], function () {
+
+			// Remove focus from other tabs and windows
+			$(".tab, .tabs-pane").removeClass("active");
+
+			$("#tab-wrapper").append("<button class='tab active' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-close'></span><span class='tab-title'></span></button>");
+			$("#aries-showcase").append("<iframe class='tabs-pane active' src='start.html' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.113 Aries/0.1.5' nwdisable nwfaketop onLoad='pageLoad();'></iframe>");
+
+			$("#url-bar").val("app://aries/start.html");
+
+			var tabID = 0, windowID = 0;
+
+			// Add a new tab
+			$("#tab-wrapper .tab").each(function () {
+
+				tabID++;
+				$(this).attr("data-tab", "#tab" + tabID);
+
+				var dataPage = $(this).attr("data-page");
+				console.log(dataPage);
+
+			});
+
+			// Add a new window
+			$("#aries-showcase iframe").each(function () {
+
+				windowID++;
+				$(this).attr("id", "tab" + windowID);
+				// $(this).attr("src", dataPage);
+
+			}).css({ "width": nw.win.window.innerWidth, "height": nw.win.window.innerHeight - 31 + "px" });
+
+			$("iframe.active").each(function () {
+			  this.contentWindow.location.reload(true);
+			});
+
+			// Reinitialize tabby to recognize new tab and window
+			tabby.init();
+			tabHover();
+
+			console.log("New tab added to Aries");
+
+		});
+
+		// Reload current iframe page
+		Mousetrap.bind(["command+r", "ctrl+r"], function () {
+
+			$("iframe.active").each(function () {
+			  this.contentWindow.location.reload(true);
+			});
+
+			console.log("Reloaded window");
+
+		});
+
+		// Bring up Developer Tools
+		Mousetrap.bind(["command+u", "ctrl+u"], function () {
+
+			nw.win.showDevTools("iframe");
+			console.log("Dev Mode, ON");
+
+		});
+
+		NProgress.done();
+
 	}
+
+	// Grab favicons for tabs
+	var getFavicon = function () {
+
+		// var currentURL = $("#aries-showcase iframe.active").attr("src");
+		var _tabID = $(".tab.active").attr("data-tab");
+		var currentURL = $("iframe" + _tabID).attr("src");
+		// var favicon = "http://g.etfv.co/" + currentURL + "?defaulticon=http://inc.ideasnevercease.netdna-cdn.com/hikari/images/favicon-default.png";
+		var favicon = "http://g.etfv.co/" + currentURL;
+
+		return favicon;
+
+	};
 
 	// Go to a website, or search for something
 	function goThere() {
@@ -375,13 +429,15 @@
 		console.log(a); // should be true, go to actual site
 
 		setTimeout(function () {
+
 			var currentTitle = $("iframe.active").contents().find("title").html(); // get current iframe title
-			var currentIcon = $("iframe.active").contents().find("link[rel='shortcut icon']").attr("href");
+			// var currentIcon = $("iframe.active").contents().find("link[rel='shortcut icon']" || "link[rel='icon']").attr("href");
 
 			$("button.active .tab-title").html(currentTitle);
-			$("button.active .tab-favicon").attr("src", currentIcon);
+			$("button.active .tab-favicon").attr("src", getFavicon);
 
 			$("iframe.active").focus();
+
 		}, 500);
 
 		/*
@@ -436,3 +492,10 @@
 		*/
 
 	}
+
+	// Error Handling
+	process.setMaxListeners(0);
+
+	process.on("uncaughtException", function(error) {
+	  console.log("Aries Error: " + error);
+	});
