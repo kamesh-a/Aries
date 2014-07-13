@@ -16,6 +16,7 @@
 			path: require("path")
 		};
 
+		/*
 		var AppMenu = function () {
 			var nw = require("nw.gui");
 			win = nw.Window.get();
@@ -25,6 +26,43 @@
 		};
 
 		AppMenu;
+		*/
+		/*
+		class="tabs-pane active"
+		seamless="true"
+		nwUserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.113 Aries/0.1.5"
+		nwdisable nwfaketop
+		onLoad="pageLoad();"
+		id="tab1"
+		*/
+
+		/*
+		// I'm creating the iframe programmatically, to make sure the onload handler fires.
+		var iframe = document.createElement("iframe");
+		iframe.onload = addScript;
+		iframe.src = "iframe-test2.html";
+		document.body.appendChild(iframe);
+		*/
+
+		_iframe = "";
+		_iframe += "<iframe class='tabs-pane active'";
+		_iframe += "seamless='true'";
+		_iframe += "nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.113 Aries/0.1.5'";
+		_iframe += "nwdisable nwfaketop ";
+		_iframe += "onLoad='addScript;'";
+		_iframe += "id='tab1'>";
+
+		$("#aries-showcase").append(_iframe);
+
+		function addScript() {
+
+		  var iframeDoc = $(".tabs-pane").contentDocument;
+		  var s = iframeDoc.createElement("script");
+		  s.type = "text/javascript";
+		  s.src = "resources/scripts/_myApp.js";
+		  iframeDoc.body.appendChild(s);
+
+		}
 
 		/*
 		var nw = require("nw.gui");
@@ -278,8 +316,8 @@
 			$("#url-bar").val(baseURL);
 			$("button.active .tab-title").html(currentTitle);
 			$("button.active .tab-favicon").attr("src", getFavicon);
-			// $("iframe.active").attr("src", currentURL);
 
+			// $("iframe.active").attr("src", currentURL);
 			// console.log(baseURL + " | " + currentURL);
 
 			// Start progress bar when clicking <a> inside window

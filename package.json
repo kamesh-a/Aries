@@ -1,7 +1,7 @@
 {
 	"name": "Aries",
 	"description": "A web browser for hikari",
-	// "icon": "resources/images/favicon-default.png",
+	"icon": "aries.icns",
 	"inject-js-start": "resources/scripts/_check.js",
 	"main": "app://aries/index.html",
 	"maintainers": [{
