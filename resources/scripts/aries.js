@@ -6,71 +6,447 @@
 	// Window Actions!
 	$(function () {
 
+		// Initialize Node Webkit
 		var nw = {
-			gui: require("nw.gui"), // Load native UI library
-			win: require("nw.gui").Window.get(), // Get the current window
+			gui: require("nw.gui"),
+			win: require("nw.gui").Window.get(),
 			platform: require("os").platform,
 			spawn: require("child_process").spawn,
 			exec: require("child_process").exec,
 			fs: require("fs"),
 			path: require("path")
-		};
+		}, os = require('os');
 
-		/*
-		var AppMenu = function () {
-			var nw = require("nw.gui");
-			win = nw.Window.get();
-			var nativeMenuBar = new nw.Menu({ type: "menubar" });
-			nativeMenuBar.createMacBuiltin("Aries");
-			win.menu = nativeMenuBar;
-		};
+		if (os.platform() === "darwin") {
+			// var menu = new nw.gui.Menu({ type: "menubar" });
+			// menu.createMacBuiltin("Aries");
+			// nw.win.menu = menu;
 
-		AppMenu;
-		*/
-		/*
-		class="tabs-pane active"
-		seamless="true"
-		nwUserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.113 Aries/0.1.5"
-		nwdisable nwfaketop
-		onLoad="pageLoad();"
-		id="tab1"
-		*/
+			// Create a menubar for window menu 
+			var menubar = new nw.gui.Menu({ type: "menubar" });
 
-		/*
-		// I'm creating the iframe programmatically, to make sure the onload handler fires.
-		var iframe = document.createElement("iframe");
-		iframe.onload = addScript;
-		iframe.src = "iframe-test2.html";
-		document.body.appendChild(iframe);
-		*/
+			/***********************************************/
 
+			// Aries Menu
+			var _aries = new nw.gui.Menu();
+
+			_aries.append(new nw.gui.MenuItem({
+				label: "About Aries",
+				click: function () {
+					console.log("Clicked 'About Aries'");
+				}
+			}));
+
+			_aries.append(new nw.gui.MenuItem({ type: "separator" }));
+
+			_aries.append(new nw.gui.MenuItem({
+				label: "Preferences",
+				click: function () {
+					console.log("Clicked 'Preferences'");
+				},
+			  key: ",",
+			  modifiers: "cmd",
+			}));
+
+			_aries.append(new nw.gui.MenuItem({ type: "separator" }));
+
+			_aries.append(new nw.gui.MenuItem({
+				label: "Synchronize", // Aries Connect
+				click: function () {
+					console.log("Clicked 'Synchronize'");
+				}
+			}));
+
+			_aries.append(new nw.gui.MenuItem({
+				label: "Clear Private Data",
+				click: function () {
+					console.log("Clicked 'Clear Private Data'");
+				}
+			}));
+
+			_aries.append(new nw.gui.MenuItem({ type: "separator" }));
+
+			_aries.append(new nw.gui.MenuItem({
+				label: "Streamline", // like Opera Turbo
+				click: function () {
+					console.log("Clicked 'Streamline'");
+				}
+			}));
+
+			_aries.append(new nw.gui.MenuItem({ type: "separator" }));
+
+			_aries.append(new nw.gui.MenuItem({
+				label: "Hide Aries",
+				click: function () {
+					console.log("Clicked 'Hide Aries'");
+				},
+			  key: "h",
+			  modifiers: "cmd",
+			}));
+
+			_aries.append(new nw.gui.MenuItem({
+				label: "Hide Others",
+				click: function () {
+					console.log("Clicked 'Hide Others'");
+				},
+			  key: "h",
+			  modifiers: "shift-cmd",
+			}));
+
+			_aries.append(new nw.gui.MenuItem({
+				label: "Show All",
+				click: function () {
+					console.log("Clicked 'Show All'");
+				}
+			}));
+
+			_aries.append(new nw.gui.MenuItem({ type: "separator" }));
+
+			_aries.append(new nw.gui.MenuItem({
+				label: "Quit Aries",
+				click: function () {
+					console.log("Clicked 'Quit Aries'");
+				},
+			  key: "q",
+			  modifiers: "cmd",
+			}));
+
+			menubar.append(new nw.gui.MenuItem({
+				label: "Aries",
+				submenu: _aries
+			}));
+
+			/***********************************************/
+
+			// File Menu
+	    var _file = new nw.gui.Menu();
+
+	    _file.append(new nw.gui.MenuItem({
+				label: "New Tab",
+				click: function() {
+					console.log("Clicked 'New Tab'");
+
+					// Remove focus from other tabs and windows
+					$(".tab, .tabs-pane").removeClass("active");
+
+					$("#tab-wrapper").append("<button class='tab active' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-close'></span><span class='tab-title'></span></button>");
+					$("#aries-showcase").append("<iframe class='tabs-pane active' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.113 Aries/0.2-alpha' nwdisable nwfaketop onLoad='pageLoad();' name='a-frame' src='start.html'></iframe>");
+
+					$("#url-bar").val("app://aries/start.html");
+
+					var tabID = 0, windowID = 0;
+
+					// Add a new tab
+					$("#tab-wrapper .tab").each(function () {
+
+						tabID++;
+						$(this).attr("data-tab", "#tab" + tabID);
+
+						var dataPage = $(this).attr("data-page");
+						console.log(dataPage);
+
+					});
+
+					// Add a new window
+					$("#aries-showcase iframe").each(function () {
+
+						windowID++;
+						$(this).attr("id", "tab" + windowID);
+						// $(this).attr("src", dataPage);
+
+					}).css({ "width": nw.win.window.innerWidth, "height": nw.win.window.innerHeight - 31 + "px" });
+
+					$("iframe.active").each(function () {
+					  this.contentWindow.location.reload(true);
+					});
+
+					// Reinitialize tabby to recognize new tab and window
+					tabby.init();
+					tabHover();
+
+					console.log("New tab added to Aries");
+				},
+			  key: "t",
+			  modifiers: "cmd",
+			}));
+
+	    _file.append(new nw.gui.MenuItem({
+				label: "New Window",
+				click: function() {
+					console.log("Clicked 'New Window'");
+				},
+			  key: "n",
+			  modifiers: "cmd",
+			}));
+
+	    _file.append(new nw.gui.MenuItem({
+				label: "New Private Window",
+				click: function() {
+					console.log("Clicked 'New Private Window'");
+				},
+			  key: "n",
+			  modifiers: "shift-cmd",
+			}));
+
+	    _file.append(new nw.gui.MenuItem({
+				label: "Open File",
+				click: function() {
+					console.log("Clicked 'Open File'");
+				},
+			  key: "o",
+			  modifiers: "cmd",
+			}));
+
+	    _file.append(new nw.gui.MenuItem({
+				label: "Open Location",
+				click: function() {
+					console.log("Clicked 'Open Location'");
+				},
+			  key: "l",
+			  modifiers: "cmd",
+			}));
+
+			_file.append(new nw.gui.MenuItem({ type: "separator" }));
+
+	    _file.append(new nw.gui.MenuItem({
+				label: "Close Tab",
+				click: function() {
+					console.log("Clicked 'Close Tab'");
+				},
+			  key: "w",
+			  modifiers: "cmd",
+			}));
+
+	    _file.append(new nw.gui.MenuItem({
+				label: "Close Other Tabs",
+				click: function() {
+					console.log("Clicked 'Close Other Tabs'");
+				}
+			}));
+
+	    _file.append(new nw.gui.MenuItem({
+				label: "Close Window",
+				click: function() {
+					console.log("Clicked 'Close Window'");
+				},
+			  key: "w",
+			  modifiers: "shift-cmd",
+			}));
+
+			_file.append(new nw.gui.MenuItem({ type: "separator" }));
+
+	    _file.append(new nw.gui.MenuItem({
+				label: "Save Page As",
+				click: function() {
+					console.log("Clicked 'Save Page As'");
+				},
+			  key: "s",
+			  modifiers: "shift-cmd",
+			}));
+
+			_file.append(new nw.gui.MenuItem({ type: "separator" }));
+
+	    _file.append(new nw.gui.MenuItem({
+				label: "Print",
+				click: function() {
+					console.log("Clicked 'Print'");
+				},
+			  key: "p",
+			  modifiers: "cmd",
+			}));
+
+			menubar.append(new nw.gui.MenuItem({
+				label: "File",
+				submenu: _file
+			}));
+
+			/***********************************************/
+
+			// Edit Menu
+			var _edit = new nw.gui.Menu();
+
+	    _edit.append(new nw.gui.MenuItem({
+				label: "Test 001",
+				click: function() {
+					console.log("Clicked 'Test 001'");
+				},
+			  key: "",
+			  modifiers: "",
+			}));
+
+			menubar.append(new nw.gui.MenuItem({
+				label: "Edit",
+				submenu: _edit
+			}));
+
+			/***********************************************/
+
+			// View Menu
+			var _view = new nw.gui.Menu();
+
+	    _view.append(new nw.gui.MenuItem({
+				label: "Test 002",
+				click: function() {
+					console.log("Clicked 'Test 002'");
+				},
+			  key: "",
+			  modifiers: "",
+			}));
+
+			_view.append(new nw.gui.MenuItem({ type: "separator" }));
+
+			menubar.append(new nw.gui.MenuItem({
+				label: "View",
+				submenu: _view
+			}));
+
+			/***********************************************/
+
+			// History Menu
+			var _history = new nw.gui.Menu();
+
+	    _history.append(new nw.gui.MenuItem({
+				label: "Test 003",
+				click: function() {
+					console.log("Clicked 'Test 003'");
+				},
+			  key: "",
+			  modifiers: "",
+			}));
+
+			_history.append(new nw.gui.MenuItem({ type: "separator" }));
+
+			menubar.append(new nw.gui.MenuItem({
+				label: "History",
+				submenu: _history
+			}));
+
+			/***********************************************/
+
+			// Developer Menu
+			var _developer = new nw.gui.Menu();
+
+	    _developer.append(new nw.gui.MenuItem({
+				label: "Web Inspector",
+				click: function() {
+
+					nw.win.showDevTools("iframe");
+
+					console.log("Dev Mode, ON");
+					console.log("Clicked 'Web Inspector'");
+
+				},
+			  key: "i",
+			  modifiers: "shift-cmd",
+			}));
+
+			_developer.append(new nw.gui.MenuItem({ type: "separator" }));
+
+	    _developer.append(new nw.gui.MenuItem({
+				label: "View Source",
+				click: function() {
+					console.log("Clicked 'View Source'");
+				},
+			  key: "u",
+			  modifiers: "cmd",
+			}));
+
+			_developer.append(new nw.gui.MenuItem({ type: "separator" }));
+
+	    _developer.append(new nw.gui.MenuItem({
+				label: "Task Manager",
+				click: function() {
+					console.log("Clicked 'Task Manager'");
+				},
+			  key: "",
+			  modifiers: "",
+			}));
+
+	    _developer.append(new nw.gui.MenuItem({
+				label: "Plugins",
+				click: function() {
+					console.log("Clicked 'Plugins'");
+				},
+			  key: "",
+			  modifiers: "",
+			}));
+
+			menubar.append(new nw.gui.MenuItem({
+				label: "Developer",
+				submenu: _developer
+			}));
+
+			/***********************************************/
+
+			// Window Menu
+			var _window = new nw.gui.Menu();
+
+	    _window.append(new nw.gui.MenuItem({
+				label: "Test 005",
+				click: function() {
+					console.log("Clicked 'Test 005'");
+				},
+			  key: "",
+			  modifiers: "",
+			}));
+
+			_window.append(new nw.gui.MenuItem({ type: "separator" }));
+
+			menubar.append(new nw.gui.MenuItem({
+				label: "Window",
+				submenu: _window
+			}));
+
+			/***********************************************/
+
+			// Help Menu
+	    var _help = new nw.gui.Menu();
+
+	    _help.append(new nw.gui.MenuItem({
+				label: "Aries Help",
+				click: function() {
+					console.log("Clicked 'Aries Help'");
+				}
+			}));
+
+	    _help.append(new nw.gui.MenuItem({
+				label: "Keyboard Shortcuts",
+				click: function() {
+					console.log("Clicked 'Keyboard Shortcuts'");
+				}
+			}));
+
+			_help.append(new nw.gui.MenuItem({ type: "separator" }));
+
+	    _help.append(new nw.gui.MenuItem({
+				label: "Report Issues",
+				click: function() {
+					console.log("Clicked 'Report Issues'");
+				}
+			}));
+
+	    menu_help = new nw.gui.MenuItem({ label: "Help" });
+	    menu_help.submenu = _help;
+
+			menubar.append(menu_help);
+
+			/***********************************************/
+
+			// Assign the menubars to window menu
+			nw.win.menu = menubar;
+		}
+
+		// Build initial iframe
 		_iframe = "";
 		_iframe += "<iframe class='tabs-pane active'";
 		_iframe += "seamless='true'";
-		_iframe += "nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.113 Aries/0.1.5'";
+		_iframe += "nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.113 Aries/0.2-alpha'";
 		_iframe += "nwdisable nwfaketop ";
-		_iframe += "onLoad='addScript;'";
+		_iframe += "onLoad='pageLoad();'";
+		_iframe += "name='a-frame'";
 		_iframe += "id='tab1'>";
 
 		$("#aries-showcase").append(_iframe);
-
-		function addScript() {
-
-		  var iframeDoc = $(".tabs-pane").contentDocument;
-		  var s = iframeDoc.createElement("script");
-		  s.type = "text/javascript";
-		  s.src = "resources/scripts/_myApp.js";
-		  iframeDoc.body.appendChild(s);
-
-		}
-
-		/*
-		var nw = require("nw.gui");
-		win = nw.Window.get();
-		var nativeMenuBar = new nw.Menu({ type: "menubar" });
-		nativeMenuBar.createMacBuiltin("Aries");
-		win.menu = nativeMenuBar;
-		*/
 
 		var $vW = $(window).width(), $vH = $(window).height();
 
@@ -303,7 +679,28 @@
 
 	}
 
+	// Grab favicons for tabs
+	var getFavicon = function () {
+
+		// var currentURL = $("#aries-showcase iframe.active").attr("src");
+		var _tabID = $(".tab.active").attr("data-tab");
+		var currentURL = $("iframe" + _tabID).attr("src");
+		var favicon = "http://g.etfv.co/" + currentURL;
+
+		return favicon;
+
+	};
+
 	function pageLoad() {
+
+		/*
+		var iFrameHead = window.frames["a-frame"].document.getElementsByTagName("head")[0];         
+		var myscript = document.createElement("script");
+		myscript.type = "text/javascript";
+		// myscript.src = "app://aries/resources/scripts/_myApp.js";
+		myscript.src = "http://hikar.io/scripts/_myApp.js";
+		iFrameHead.appendChild(myscript);
+		*/
 
 		NProgress.start();
 
@@ -347,96 +744,40 @@
 
 		});
 
-		/*
 		$("iframe.active").ready(function () {
+
+			var nw = {
+				gui: require("nw.gui"), // Load native UI library
+				win: require("nw.gui").Window.get(), // Get the current window
+				platform: require("os").platform,
+				spawn: require("child_process").spawn,
+				exec: require("child_process").exec,
+				fs: require("fs"),
+				path: require("path")
+			};
+
 			$(this).focus();
-			$(this).attr("src", this.contentWindow.location.href);
-		});
-		*/
+			// $("iframe.active").attr("src", this.contentWindow.location.href);
 
-		// $("iframe.active").attr("src", this.contentWindow.location.href);
+			// Keyboard shortcuts courtesy of Mousetrap. Holla!
+			// https://github.com/ccampbell/mousetrap
 
-		// Keyboard shortcuts courtesy of Mousetrap. Holla!
-		// https://github.com/ccampbell/mousetrap
-		Mousetrap.bind(["command+t", "ctrl+t"], function () {
+			// Reload current iframe page
+			Mousetrap.bind(["command+r", "ctrl+r"], function () {
 
-			// Remove focus from other tabs and windows
-			$(".tab, .tabs-pane").removeClass("active");
+				$("iframe.active").each(function () {
+				  this.contentWindow.location.reload(true);
+				});
 
-			$("#tab-wrapper").append("<button class='tab active' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-close'></span><span class='tab-title'></span></button>");
-			$("#aries-showcase").append("<iframe class='tabs-pane active' src='start.html' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.113 Aries/0.1.5' nwdisable nwfaketop onLoad='pageLoad();'></iframe>");
-
-			$("#url-bar").val("app://aries/start.html");
-
-			var tabID = 0, windowID = 0;
-
-			// Add a new tab
-			$("#tab-wrapper .tab").each(function () {
-
-				tabID++;
-				$(this).attr("data-tab", "#tab" + tabID);
-
-				var dataPage = $(this).attr("data-page");
-				console.log(dataPage);
+				console.log("Reloaded window");
 
 			});
 
-			// Add a new window
-			$("#aries-showcase iframe").each(function () {
-
-				windowID++;
-				$(this).attr("id", "tab" + windowID);
-				// $(this).attr("src", dataPage);
-
-			}).css({ "width": nw.win.window.innerWidth, "height": nw.win.window.innerHeight - 31 + "px" });
-
-			$("iframe.active").each(function () {
-			  this.contentWindow.location.reload(true);
-			});
-
-			// Reinitialize tabby to recognize new tab and window
-			tabby.init();
-			tabHover();
-
-			console.log("New tab added to Aries");
+			NProgress.done();
 
 		});
-
-		// Reload current iframe page
-		Mousetrap.bind(["command+r", "ctrl+r"], function () {
-
-			$("iframe.active").each(function () {
-			  this.contentWindow.location.reload(true);
-			});
-
-			console.log("Reloaded window");
-
-		});
-
-		// Bring up Developer Tools
-		Mousetrap.bind(["command+u", "ctrl+u"], function () {
-
-			nw.win.showDevTools("iframe");
-			console.log("Dev Mode, ON");
-
-		});
-
-		NProgress.done();
 
 	}
-
-	// Grab favicons for tabs
-	var getFavicon = function () {
-
-		// var currentURL = $("#aries-showcase iframe.active").attr("src");
-		var _tabID = $(".tab.active").attr("data-tab");
-		var currentURL = $("iframe" + _tabID).attr("src");
-		// var favicon = "http://g.etfv.co/" + currentURL + "?defaulticon=http://inc.ideasnevercease.netdna-cdn.com/hikari/images/favicon-default.png";
-		var favicon = "http://g.etfv.co/" + currentURL;
-
-		return favicon;
-
-	};
 
 	// Go to a website, or search for something
 	function goThere() {
@@ -530,6 +871,10 @@
 		*/
 
 	}
+
+	console.log("Platform: " + process.platform);
+	console.log("Processor architecture: " + process.arch);
+	console.log("PID: " + process.pid);
 
 	// Error Handling
 	process.setMaxListeners(0);

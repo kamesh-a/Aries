@@ -9,7 +9,7 @@
 		"email": "tadashi@hikar.io",
 		"web": "http://hikar.io"
 	}],
-	"private": true,
+	"private": false,
 	"repositories": [{
 		"type": "git",
 		"url": "https://github.com/IdeasNeverCease/Aries.git"
@@ -22,9 +22,13 @@
 		"min_width": 320,
 		"min_height": 200,
 		"focus": true,
-		// "frame": false,
+		"frame": false,
 		"position": "center",
 		// "resizable": true,
-		"show": false
+		"show": false,
+		"transparent": true
+	},
+	"webkit": {
+		"plugin": true
 	}
 }
