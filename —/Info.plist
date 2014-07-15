@@ -14,14 +14,14 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>aries.icns</string>
 			<key>CFBundleTypeName</key>
-			<string>Aries App</string>
+			<string>Aries Browser</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.intel.nw.app</string>
+				<string>com.intel.hikari.app</string>
 			</array>
 		</dict>
 		<dict>
@@ -42,7 +42,7 @@
 	<key>CFBundleIconFile</key>
 	<string>aries.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.intel.nw</string>
+	<string>com.intel.hikari</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -79,13 +79,13 @@
 				<string>com.pkware.zip-archive</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Aries App</string>
+			<string>Aries Browser</string>
 			<key>UTTypeIconFile</key>
 			<string>aries.icns</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.intel.nw.app</string>
+			<string>com.intel.hikari.app</string>
 			<key>UTTypeReferenceURL</key>
-			<string>https://github.com/rogerwang/node-webkit/wiki/How-to-package-and-distribute-your-apps</string>
+			<string>https://github.com/IdeasNeverCease/Aries</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>com.apple.ostype</key>

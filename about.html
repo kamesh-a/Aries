@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+
+		<meta charset="utf-8"/>
+		<title>About Aries</title>
+
+		<!--/
+		░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+		010000010111001011010010110010101110011
+		░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+		A R I E S
+		░░░░░░░░░
+		/-->
+
+		<link rel="stylesheet" href="resources/css/style.css"/>
+		<link rel="shortcut icon" href="resources/images/favicon-default.png"/>
+
+		<script src="resources/scripts/vendor/jquery-2.1.0.min.js"></script>
+
+		<script>
+			// Aries.js
+			// @IdeasNeverCease
+			// ========================================================
+
+			// Window Actions!
+			$(function () {
+
+				// Initialize Node Webkit
+				var nw = {
+					gui: require("nw.gui"),
+					win: require("nw.gui").Window.get(),
+					platform: require("os").platform,
+					spawn: require("child_process").spawn,
+					exec: require("child_process").exec,
+					fs: require("fs"),
+					path: require("path")
+				}, os = require('os');
+			
+				// Close Aries
+				$(".app-close").on("click", function () { nw.win.close(); });
+			
+			});
+		</script>
+
+	</head>
+
+	<body>
+
+		<section id="aries-titlebar">
+			<h1>About Aries</h1>
+		</section>
+
+		<section id="aries-powerbar">
+			<div id="window-actions" class="button-group">
+				<button class="app-close"></button>
+			</div>
+		</section>
+
+		<section>
+			Hi there!
+		</section>
+
+	</body>
+
+</html>

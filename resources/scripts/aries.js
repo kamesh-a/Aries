@@ -33,7 +33,19 @@
 			_aries.append(new nw.gui.MenuItem({
 				label: "About Aries",
 				click: function () {
+
 					console.log("Clicked 'About Aries'");
+
+					var win = nw.gui.Window.open("about.html", {
+					  "position": "center",
+					  "width": 600,
+					  "height": 297,
+					  "frame": false,
+					  "toolbar": false
+					});
+
+					win.on("load", function () { this.focus(true); });
+
 				}
 			}));
 
@@ -266,12 +278,97 @@
 			var _edit = new nw.gui.Menu();
 
 	    _edit.append(new nw.gui.MenuItem({
-				label: "Test 001",
+				label: "Undo",
 				click: function() {
-					console.log("Clicked 'Test 001'");
+					console.log("Clicked 'Undo'");
 				},
-			  key: "",
-			  modifiers: "",
+			  key: "z",
+			  modifiers: "cmd",
+			}));
+
+	    _edit.append(new nw.gui.MenuItem({
+				label: "Redo",
+				click: function() {
+					console.log("Clicked 'Redo'");
+				},
+			  key: "z",
+			  modifiers: "shift-cmd",
+			}));
+
+			_edit.append(new nw.gui.MenuItem({ type: "separator" }));
+
+	    _edit.append(new nw.gui.MenuItem({
+				label: "Cut",
+				click: function() {
+					console.log("Clicked 'Cut'");
+				},
+			  key: "x",
+			  modifiers: "cmd",
+			}));
+
+	    _edit.append(new nw.gui.MenuItem({
+				label: "Copy",
+				click: function() {
+					console.log("Clicked 'Copy'");
+				},
+			  key: "c",
+			  modifiers: "cmd",
+			}));
+
+	    _edit.append(new nw.gui.MenuItem({
+				label: "Cut",
+				click: function() {
+					console.log("Clicked 'Cut'");
+				},
+			  key: "x",
+			  modifiers: "cmd",
+			}));
+
+	    _edit.append(new nw.gui.MenuItem({
+				label: "Paste",
+				click: function() {
+					console.log("Clicked 'Paste'");
+				},
+			  key: "v",
+			  modifiers: "cmd",
+			}));
+
+	    _edit.append(new nw.gui.MenuItem({
+				label: "Select All",
+				click: function() {
+					console.log("Clicked 'Select All'");
+				},
+			  key: "a",
+			  modifiers: "cmd",
+			}));
+
+			_edit.append(new nw.gui.MenuItem({ type: "separator" }));
+
+	    _edit.append(new nw.gui.MenuItem({
+				label: "Find",
+				click: function() {
+					console.log("Clicked 'Find'");
+				},
+			  key: "f",
+			  modifiers: "cmd",
+			}));
+
+	    _edit.append(new nw.gui.MenuItem({
+				label: "Find Next",
+				click: function() {
+					console.log("Clicked 'Find Next'");
+				},
+			  key: "g",
+			  modifiers: "cmd",
+			}));
+
+	    _edit.append(new nw.gui.MenuItem({
+				label: "Find Previous",
+				click: function() {
+					console.log("Clicked 'Find Previous'");
+				},
+			  key: "g",
+			  modifiers: "shift-cmd",
 			}));
 
 			menubar.append(new nw.gui.MenuItem({
@@ -685,7 +782,8 @@
 		// var currentURL = $("#aries-showcase iframe.active").attr("src");
 		var _tabID = $(".tab.active").attr("data-tab");
 		var currentURL = $("iframe" + _tabID).attr("src");
-		var favicon = "http://g.etfv.co/" + currentURL;
+		// var favicon = "http://g.etfv.co/" + currentURL;
+		var favicon = "http://localhost:8080/?url=" + currentURL;
 
 		return favicon;
 
