@@ -117,7 +117,10 @@
 			_aries.append(new nw.gui.MenuItem({
 				label: "Quit Aries",
 				click: function () {
+
+					nw.win.close();
 					console.log("Clicked 'Quit Aries'");
+
 				},
 			  key: "q",
 			  modifiers: "cmd",
@@ -219,6 +222,18 @@
 			}));
 
 			_file.append(new nw.gui.MenuItem({ type: "separator" }));
+
+	    _file.append(new nw.gui.MenuItem({
+				label: "Reload Tab",
+				click: function() {
+
+					$("iframe.active").attr("src", function (i, val) { return val; });
+					console.log("Reloaded Tab");
+
+				},
+			  key: "r",
+			  modifiers: "cmd",
+			}));
 
 	    _file.append(new nw.gui.MenuItem({
 				label: "Close Tab",
@@ -428,12 +443,22 @@
 				click: function() {
 
 					nw.win.showDevTools("iframe");
-
 					console.log("Dev Mode, ON");
-					console.log("Clicked 'Web Inspector'");
 
 				},
 			  key: "i",
+			  modifiers: "shift-cmd",
+			}));
+
+	    _developer.append(new nw.gui.MenuItem({
+				label: "Reload Aries",
+				click: function() {
+
+					nw.win.reload();
+					console.log("Reloaded Aries");
+
+				},
+			  key: "r",
 			  modifiers: "shift-cmd",
 			}));
 
@@ -650,28 +675,6 @@
 
 		});
 
-		/*
-		// node-webkit takes over this shortcut at the moment
-		// Close current iframe page
-		Mousetrap.bind(["command+w", "ctrl+w"], function () {
-
-			$("iframe.active").each(function () {
-				this.remove();
-			});
-
-			console.log("Closed window");
-
-		});
-		*/
-
-		// Bring up Developer Tools
-		Mousetrap.bind(["command+u", "ctrl+u"], function () {
-
-			nw.win.showDevTools("iframe");
-			console.log("Dev Mode, ON");
-
-		});
-
 		// Things to do before Aries starts
 		onload = function () {
 
@@ -779,11 +782,15 @@
 	// Grab favicons for tabs
 	var getFavicon = function () {
 
-		// var currentURL = $("#aries-showcase iframe.active").attr("src");
-		var _tabID = $(".tab.active").attr("data-tab");
-		var currentURL = $("iframe" + _tabID).attr("src");
-		// var favicon = "http://g.etfv.co/" + currentURL;
-		var favicon = "http://localhost:8080/?url=" + currentURL;
+		var favicon, _tabID = $(".tab.active").attr("data-tab");
+		var nodeList = $("iframe" + _tabID).contents().find("link");
+
+		for (var i = 0; i < nodeList.length; i++) {
+			// get any type of icon
+			if ((nodeList[i].getAttribute("rel") == "icon") || (nodeList[i].getAttribute("rel") == "shortcut icon") || (nodeList[i].getAttribute("rel") == "apple-touch-icon")) {
+				favicon = nodeList[i].href; // get absolute path
+			}
+		}
 
 		return favicon;
 
@@ -855,21 +862,6 @@
 			};
 
 			$(this).focus();
-			// $("iframe.active").attr("src", this.contentWindow.location.href);
-
-			// Keyboard shortcuts courtesy of Mousetrap. Holla!
-			// https://github.com/ccampbell/mousetrap
-
-			// Reload current iframe page
-			Mousetrap.bind(["command+r", "ctrl+r"], function () {
-
-				$("iframe.active").each(function () {
-				  this.contentWindow.location.reload(true);
-				});
-
-				console.log("Reloaded window");
-
-			});
 
 			NProgress.done();
 

@@ -17,10 +17,10 @@
 	"single-instance": false,
 	"version": "0.2",
 	"window": {
-		// "width": 1000,
-		// "height": 600,
+		"width": 1024,
+		"height": 768,
 		"min_width": 320,
-		"min_height": 200,
+		"min_height": 640,
 		"focus": true,
 		"frame": false,
 		"position": "center",
