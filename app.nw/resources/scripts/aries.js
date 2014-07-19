@@ -824,13 +824,11 @@
 
 			});
 
-			/*
 			// Don't show anything in address bar if on start page,
 			// but put it in focus
-			if (currentURL === "start.html" || "app://aries/app.nw/start.html") {
+			if ($("#url-bar").val() == "app://aries/app.nw/start.html") {
 				$("#url-bar").val("").focus();
 			}
-			*/
 
 		});
 
