@@ -194,28 +194,14 @@
 	font-family: "Ionicons";
 	font-style: normal;
 	font-weight: normal;
-
-	src: url("../fonts/ionic/ionicons.eot?v=1.4.0");
-	src: url("../fonts/ionic/ionicons.eot?v=1.4.0#iefix") format("embedded-opentype"),
-			 url("../fonts/ionic/ionicons.ttf?v=1.4.0") format("truetype"),
-			 url("../fonts/ionic/ionicons.woff?v=1.4.0") format("woff"),
-			 url("../fonts/ionic/ionicons.svg?v=1.4.0#Ionicons") format("svg");	
+	src: url("../fonts/ionic/ionicons.woff") format("woff");
 }
 
 ////////////////////////////////////////////// TYPOGRAPHY /////////////////////////////////////////////
 
-@mixin mono {
-  font-family: "SourceCodePro", monospace;
-}
-
-@mixin sans {
-	font-family: "OpenSans", sans-serif;
-}
-
-@mixin serif {
-	font-family: "Alegreya", serif;
-}
-
+@mixin mono { font-family: "SourceCodePro", monospace; }
+@mixin sans { font-family: "OpenSans", sans-serif; }
+@mixin serif { font-family: "Alegreya", serif; }
 @mixin icons { font-family: "Ionicons"; }
 
 // @mixin japanese { font-family: "Kozuka Gothic Pr6N", "Mplus1mMedium"; }

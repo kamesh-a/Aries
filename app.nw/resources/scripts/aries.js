@@ -591,6 +591,7 @@
 		});
 
 		// Recalculate sizing of browser elements when scaling Aries
+		// Need to make this better
 		nw.win.on("resize", function () {
 
 			// Set URL bar width
@@ -618,10 +619,14 @@
 			$("iframe" + _tabID).addClass("active");
 			$(this).addClass("active");
 
+			// Populate address bar, tab title, and tab icon with
+			// appropriate information
 			$("#url-bar").val(_gotIT);
 			$(".tab-title", this).text(_title);
 			$(".tab-favicon", this).attr("src", getFavicon);
 
+			// Don't show anything in address bar if on start page,
+			// but put it in focus
 			if (_gotIT === "start.html") {
 				$("#url-bar").val("").focus();
 			}
@@ -706,8 +711,6 @@
 			nw.win.show();
 
 		};
-
-		// $("#url-bar").focus();
 
 		/*
 		// This needs to be smoother. For now, just grab and drag window via URL bar
@@ -804,38 +807,30 @@
 			$("button.active .tab-title").html(currentTitle);
 			$("button.active .tab-favicon").attr("src", getFavicon);
 
-			// $("iframe.active").attr("src", currentURL);
-			// console.log(baseURL + " | " + currentURL);
-
 			// Start progress bar when clicking <a> inside window
 			var iframe = $(this).contents();
 
-			iframe.find("a").not("a[href*=#]").bind("click", function() {
-			// iframe.find("a").not("a[href^=#]").bind("click", function() {
-			// iframe.find("a").click(function () {
+			iframe.find("a").not("a[href*='#'], a[href*='%'], a").bind("click", function() {
 
 				NProgress.start();
 
 				$("button.active .tab-title").html(currentTitle);
 				$("button.active .tab-favicon").attr("src", getFavicon);
 
-				// var currentURL = $("#url-bar").val(this.contentWindow.location.href);
-				// var currentURL = $(this).parent("iframe").contentWindow.location.href;
-				// var _updatedURL = $(this).attr("data-page");
-
-				/*
-				setTimeout(function () {
-					$("iframe.active").attr("src", currentURL);
-					console.log("Clicked a link" + currentURL);
-				}, 1000);
-				*/
-
-				// var _location = $(this).attr("href");
 				var _location = $(this)[0].href;
 				$("iframe.active").attr("src", _location);
+
 				console.log("Hmm, " + _location);
 
 			});
+
+			/*
+			// Don't show anything in address bar if on start page,
+			// but put it in focus
+			if (currentURL === "start.html" || "app://aries/app.nw/start.html") {
+				$("#url-bar").val("").focus();
+			}
+			*/
 
 		});
 
@@ -851,11 +846,17 @@
 				path: require("path")
 			};
 
-			$(this).focus();
-
 			NProgress.done();
 
 		});
+
+		/*
+		// Don't show anything in address bar if on start page,
+		// but put it in focus
+		if ($("#url-bar").val() === "start.html" || "app://aries/app.nw/start.html") {
+			$("#url-bar").val("").focus();
+		}
+		*/
 
 	}
 
@@ -890,12 +891,9 @@
 		setTimeout(function () {
 
 			var currentTitle = $("iframe.active").contents().find("title").html(); // get current iframe title
-			// var currentIcon = $("iframe.active").contents().find("link[rel='shortcut icon']" || "link[rel='icon']").attr("href");
 
 			$("button.active .tab-title").html(currentTitle);
 			$("button.active .tab-favicon").attr("src", getFavicon);
-
-			$("iframe.active").focus();
 
 		}, 500);
 
@@ -924,30 +922,6 @@
 			console.log(a); // should be true, search DDG
 
 		}
-		*/
-
-		/*
-		$(document).on("click", ".tab", function () {
-
-			var _tabID = $(this).attr("data-tab");
-			var _gotIT = $("iframe" + _tabID).attr("src");
-
-			var currentURL = $("#aries-showcase iframe.active").attr("src"); // get current iframe URL
-			var currentTitle = $("#aries-showcase iframe.active").contents().find("title").html(); // get current iframe title
-			var currentIcon = $("#aries-showcase iframe.active").contents().find("link[rel='shortcut icon']").attr("href");
-
-			// rel="shortcut icon" // var url = $('#aries-showcase iframe.active link[rel="shortcut icon"]')[0].href;
-
-			$("#url-bar").val(currentURL);
-			$("#tab-wrapper button.active .tab-title").text(currentTitle);
-			$("#tab-wrapper button.active .tab-favicon").attr("src", currentIcon);
-
-			console.log(_tabID);
-			console.log(_gotIT);
-			console.log(currentIcon);
-			// console.log(_windowID);
-
-		});
 		*/
 
 	}
