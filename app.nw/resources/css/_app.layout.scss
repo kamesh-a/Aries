@@ -81,10 +81,7 @@ body {
 	}
 }
 
-#aries-powerbar {
-	background-color: lighten($dark-gray, 68%);
-	-webkit-app-region: no-drag;
-}
+#aries-powerbar { background-color: lighten($dark-gray, 68%); }
 
 #browsing-actions, #url-bar, #window-actions {
 	position: absolute;
@@ -246,6 +243,9 @@ button.app-settings, button.app-go-back, button.app-go-forth {
 }
 
 button.app-settings {
+	-webkit-app-region: drag;
+	-webkit-user-select: none;
+
 	&:active {
 		transform: translate(0, 2px);
 		-webkit-transform: translate(0, 2px);

@@ -7,7 +7,10 @@
 	$(function () {
 
 		// Initialize Node Webkit
-		var nw = {
+		var
+		$vW = $(window).width(),
+		$vH = $(window).height(),
+		nw = {
 			gui: require("nw.gui"),
 			win: require("nw.gui").Window.get(),
 			platform: require("os").platform,
@@ -144,10 +147,10 @@
 					// Remove focus from other tabs and windows
 					$(".tab, .tabs-pane").removeClass("active");
 
-					$("#tab-wrapper").append("<button class='tab active' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-close'></span><span class='tab-title'></span></button>");
-					$("#aries-showcase").append("<iframe class='tabs-pane active' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.113 Aries/0.2-alpha' nwdisable nwfaketop onLoad='pageLoad();' name='a-frame' src='start.html'></iframe>");
+					$("#tab-wrapper").append("<button class='tab active' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-close'></span><span class='tab-title'>Start Page</span></button>");
+					$("#aries-showcase").append("<iframe class='tabs-pane active' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.113 Aries/0.2-alpha' nwdisable nwfaketop onLoad='pageLoad();' src='start.html'></iframe>");
 
-					$("#url-bar").val("app://aries/start.html");
+					$("#url-bar").val("").focus();
 
 					var tabID = 0, windowID = 0;
 
@@ -565,12 +568,9 @@
 		_iframe += "nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.113 Aries/0.2-alpha'";
 		_iframe += "nwdisable nwfaketop ";
 		_iframe += "onLoad='pageLoad();'";
-		_iframe += "name='a-frame'";
 		_iframe += "id='tab1'>";
 
 		$("#aries-showcase").append(_iframe);
-
-		var $vW = $(window).width(), $vH = $(window).height();
 
 		// Minimize Aries
 		$(".app-minimize").on("click", function () { nw.win.minimize(); });
@@ -609,10 +609,6 @@
 			var _tabID = $(this).attr("data-tab");
 			var _gotIT = $("iframe" + _tabID).attr("src");
 			var _title = $("iframe" + _tabID).contents().find("title").html();
-			// var _windowID = $(this).attr("data-page");
-
-			// var currentURL = $("#aries-showcase iframe.active").attr("src"); // get current iframe URL
-			// var currentTitle = $("#aries-showcase iframe.active").contents().find("title").html(); // get current iframe title
 
 			// Remove active states for other tabs/windows
 			$("iframe").removeClass("active");
@@ -622,18 +618,16 @@
 			$("iframe" + _tabID).addClass("active");
 			$(this).addClass("active");
 
-			// $("#url-bar").val(currentURL);
 			$("#url-bar").val(_gotIT);
-			// $(".tab-title", this).text(currentTitle);
 			$(".tab-title", this).text(_title);
 			$(".tab-favicon", this).attr("src", getFavicon);
-			// $("#tab-wrapper button.active .tab-title").text(currentTitle);
-			// $("#tab-wrapper button.active .tab-favicon").attr("src", getFavicon);
+
+			if (_gotIT === "start.html") {
+				$("#url-bar").val("").focus();
+			}
 
 			console.log(_tabID);
 			console.log(_gotIT);
-			// console.log(getFavicon);
-			// console.log(_windowID);
 
 		});
 
@@ -797,15 +791,6 @@
 	};
 
 	function pageLoad() {
-
-		/*
-		var iFrameHead = window.frames["a-frame"].document.getElementsByTagName("head")[0];         
-		var myscript = document.createElement("script");
-		myscript.type = "text/javascript";
-		// myscript.src = "app://aries/resources/scripts/_myApp.js";
-		myscript.src = "http://hikar.io/scripts/_myApp.js";
-		iFrameHead.appendChild(myscript);
-		*/
 
 		NProgress.start();
 

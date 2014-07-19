@@ -6,7 +6,7 @@
 	"icon": "resources/images/aries.icns",
 	// "inject-js-start": "resources/scripts/_check.js",
 	// "main": "app://aries/index.html",
-	"main": "app.nw/index.html",
+	"main": "app://aries/app.nw/index.html",
 	"maintainers": [{
 		"name": "NetOperator Wibby",
 		"email": "tadashi@hikar.io",
