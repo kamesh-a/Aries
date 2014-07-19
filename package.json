@@ -1,8 +1,11 @@
 {
+	"author": "NetOperator Wibby",
 	"name": "Aries",
 	"description": "A web browser for hikari",
-	"icon": "aries.icns",
+	"homepage": "http://hikar.io",
+	"icon": "resources/images/aries.icns",
 	// "inject-js-start": "resources/scripts/_check.js",
+	// "main": "app://aries/index.html",
 	"main": "app://aries/index.html",
 	"maintainers": [{
 		"name": "NetOperator Wibby",
@@ -14,7 +17,7 @@
 		"type": "git",
 		"url": "https://github.com/IdeasNeverCease/Aries.git"
 	}],
-	"single-instance": false,
+	"single-instance": true,
 	"version": "0.2",
 	"window": {
 		"width": 1024,
@@ -23,8 +26,9 @@
 		"min_height": 640,
 		"focus": true,
 		"frame": false,
+		"fullscreen": false,
 		"position": "center",
-		// "resizable": true,
+		"resizable": true,
 		"show": false,
 		"transparent": true
 	},

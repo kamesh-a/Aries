@@ -315,7 +315,10 @@
 	    _edit.append(new nw.gui.MenuItem({
 				label: "Cut",
 				click: function() {
-					console.log("Clicked 'Cut'");
+
+					document.execCommand("cut");
+					console.log("Cut something");
+
 				},
 			  key: "x",
 			  modifiers: "cmd",
@@ -324,25 +327,22 @@
 	    _edit.append(new nw.gui.MenuItem({
 				label: "Copy",
 				click: function() {
-					console.log("Clicked 'Copy'");
+
+					document.execCommand("copy");
+					console.log("Copied something");
+
 				},
 			  key: "c",
 			  modifiers: "cmd",
 			}));
 
 	    _edit.append(new nw.gui.MenuItem({
-				label: "Cut",
-				click: function() {
-					console.log("Clicked 'Cut'");
-				},
-			  key: "x",
-			  modifiers: "cmd",
-			}));
-
-	    _edit.append(new nw.gui.MenuItem({
 				label: "Paste",
 				click: function() {
-					console.log("Clicked 'Paste'");
+
+					document.execCommand("paste");
+					console.log("Pasted something");
+
 				},
 			  key: "v",
 			  modifiers: "cmd",
@@ -825,7 +825,9 @@
 			// Start progress bar when clicking <a> inside window
 			var iframe = $(this).contents();
 
-			iframe.find("a").click(function () {
+			iframe.find("a").not("a[href*=#]").bind("click", function() {
+			// iframe.find("a").not("a[href^=#]").bind("click", function() {
+			// iframe.find("a").click(function () {
 
 				NProgress.start();
 
@@ -843,9 +845,12 @@
 				}, 1000);
 				*/
 
-			});
+				// var _location = $(this).attr("href");
+				var _location = $(this)[0].href;
+				$("iframe.active").attr("src", _location);
+				console.log("Hmm, " + _location);
 
-			// $("iframe.active").attr("src", currentURL);
+			});
 
 		});
 
