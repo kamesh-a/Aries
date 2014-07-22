@@ -17,6 +17,109 @@
 		<link rel="stylesheet" href="resources/css/style.css"/>
 		<link rel="shortcut icon" href="resources/images/favicon-default.png"/>
 
+		<style>
+			body {
+				color: #191919;
+			}
+
+			h1 {
+				width: 21px; height: 30px;
+
+				background-image: url("resources/images/hikari-logo.png");
+				background-size: 21px 30px;
+				font-size: 0;
+				line-height: 0;
+				margin-bottom: 1rem;
+			}
+
+			h3 { font-size: 2rem; }
+
+			h3:after {
+				width: 100%; height: 4rem;
+				top: 125px; left: 200px;
+
+				background-image: linear-gradient(180deg, #fff, rgba(255, 255, 255, 0));
+				content: "";
+				pointer-events: none;
+				position: absolute;
+				z-index: 1;
+			}
+
+			#aries-logo, #aries-info {
+				float: left;
+				height: 100%;
+				padding: 1rem;
+			}
+
+			#aries-logo {
+				background-image: url("resources/images/aries-logo.png");
+				background-position: 8px 35px;
+				background-repeat: no-repeat;
+				background-size: 200px;
+				width: 200px;
+			}
+
+			#aries-info {
+				padding: 1rem;
+				width: 400px;
+			}
+
+			.container {
+				overflow: hidden;
+				position: relative;
+			}
+
+			p { margin-bottom: 1rem; }
+			p:first-child { margin-top: 10rem; }
+
+			.marquee {
+				animation: marquee 30s linear infinite;
+				box-sizing: border-box;
+				line-height: 1.5rem;
+				margin: 0;
+				position: relative;
+				/* top: 10rem; */
+
+				-webkit-animation: marquee 30s linear infinite;
+			}
+
+			.marquee:before { top: 0; }
+
+			.marquee:before, .marquee:after {
+				width: 100%; height: 2rem;
+
+				content: "";
+				left: 0;
+				pointer-events: none;
+				position: absolute;
+				z-index: 1;
+			}
+
+			.marquee:after {
+				background-image: linear-gradient(180deg, #fff, rgba(255, 255, 255, 0));
+				bottom: 0;
+				transform: rotate(180deg);
+			}
+
+			.marquee:hover {
+				animation-play-state: paused;
+				-webkit-animation-play-state: paused;
+			}
+
+			/* .spacer { height: 20rem; } */
+
+			/* Make it move! */
+			@keyframes marquee {
+				0% { top: 0; }
+				100% { top: -40rem; }
+			}
+
+			@-webkit-keyframes marquee {
+				0% { top: 0; }
+				100% { top: -40rem; }
+			}
+		</style>
+
 		<script src="resources/scripts/vendor/jquery-2.1.0.min.js"></script>
 
 		<script>
@@ -40,17 +143,13 @@
 			
 				// Close Aries
 				$(".app-close").on("click", function () { nw.win.close(); });
-			
+
 			});
 		</script>
 
 	</head>
 
-	<body>
-
-		<section id="aries-titlebar">
-			<h1>About Aries</h1>
-		</section>
+	<body style="width: 600px">
 
 		<section id="aries-powerbar">
 			<div id="window-actions" class="button-group">
@@ -58,8 +157,23 @@
 			</div>
 		</section>
 
-		<section>
-			Hi there!
+		<section id="aries-logo"></section>
+
+		<section id="aries-info">
+			<h1>hikari</h1>
+			<h3>Aries</h3>
+
+			<div class="container">
+				<div class="marquee">
+					<p>Copyright &copy; 2014 Ideas Never Cease, LLC. All rights reserved. hikari, the hikari logo, Aries, and the Aries logo are trademarks of Ideas Never Cease, LLC., registered in the U.S. (other countries soon).</p>
+
+					<p>Aries is built using node-webkit, which is based on Chromium. Chromium is licensed under the MIT License, the LGPL, the BSD, the Ms-PL and MPL/GPL/LGPL tri-licenses.</p>
+
+					<p>Visual design is based on some works by Sang Lee, used with permission.</p>
+
+					<p class="spacer">&nbsp;</p>
+				</div>
+			</div>
 		</section>
 
 	</body>

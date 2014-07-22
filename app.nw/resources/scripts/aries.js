@@ -641,9 +641,19 @@
 			var _tabID = $(this).parent().attr("data-tab");
 			var _gotIT = $("iframe" + _tabID);
 
+			/*
 			// Make sure the next tab and window take focus
-			$(this).parent().prev(".tab").addClass("active");
-			$(_gotIT).prev("iframe").addClass("active");
+			$(this).parent().next(".tab").addClass("active");
+			$(_gotIT).next("iframe").addClass("active");
+			*/
+
+			/*
+			$(this).parent().removeClass("active");
+			$(_gotIT).removeClass("active");
+
+			$(this).parent().next(".tab").addClass("active");
+			$(_gotIT).next("iframe").addClass("active");
+			*/
 
 			// Close the current tab and window
 			$(this).parent().remove();
@@ -784,9 +794,10 @@
 
 		for (var i = 0; i < nodeList.length; i++) {
 			// get any type of icon
+			// meta property="og:image" content="http://images.apple.com/home/images/og.jpg"
 			if ((nodeList[i].getAttribute("rel") == "icon") || (nodeList[i].getAttribute("rel") == "shortcut icon") || (nodeList[i].getAttribute("rel") == "apple-touch-icon")) {
 				favicon = nodeList[i].href; // get absolute path
-			}
+			} // else { favicon = "resources/images/favicon-default.png"; }
 		}
 
 		return favicon;
@@ -932,3 +943,5 @@
 	process.on("uncaughtException", function(error) {
 	  console.log("Aries Error: " + error);
 	});
+
+	// process.on("net::ERR_NAME_NOT_RESOLVED", function(error) { console.log("Aries Error: " + error); });
