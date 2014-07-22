@@ -821,7 +821,10 @@
 			// Start progress bar when clicking <a> inside window
 			var iframe = $(this).contents();
 
-			iframe.find("a").not("a[href*='#'], a[href*='%']").bind("click", function() {
+			iframe.find("a").not("a[href*='#'], a[href*='%'], a[href*='javascript:;']").bind("click", function() {
+
+				// Hamburger menu on Dockyard.com has no href
+				if ($(this).attr("href").length == 0) { return false; }
 
 				NProgress.start();
 
