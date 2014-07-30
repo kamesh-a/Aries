@@ -605,9 +605,10 @@
 
 		});
 
-		$(document).on("click", ".tab", function () {
+		$(document).on("click", ".tab-title", function () {
 
-			var _tabID = $(this).attr("data-tab");
+			var _tabID = $(this).parent().attr("data-tab");
+			// var _tabID = $(this).attr("data-tab");
 			var _gotIT = $("iframe" + _tabID).attr("src");
 			var _title = $("iframe" + _tabID).contents().find("title").html();
 
@@ -617,7 +618,7 @@
 
 			// Add active states for selected tab/window
 			$("iframe" + _tabID).addClass("active");
-			$(this).addClass("active");
+			$(this).parent().addClass("active");
 
 			// Populate address bar, tab title, and tab icon with
 			// appropriate information
@@ -641,22 +642,19 @@
 			var _tabID = $(this).parent().attr("data-tab");
 			var _gotIT = $("iframe" + _tabID);
 
-			/*
-			// Make sure the next tab and window take focus
-			$(this).parent().next(".tab").addClass("active");
-			$(_gotIT).next("iframe").addClass("active");
-			*/
+			// var listItems = $("#aries-showcase iframe:gt(0)");
+			// $("#aries-showcase iframe").index(listItems).addClass("active");
 
-			/*
-			$(this).parent().removeClass("active");
+			// Remove active states from current view
+			$(this).parent(".tab").removeClass("active");
 			$(_gotIT).removeClass("active");
 
-			$(this).parent().next(".tab").addClass("active");
+			// Add active states to next view
+			$(this).parent(".tab").next(".tab").addClass("active");
 			$(_gotIT).next("iframe").addClass("active");
-			*/
 
 			// Close the current tab and window
-			$(this).parent().remove();
+			$(this).parent(".tab").remove();
 			$(_gotIT).remove();
 
 		});

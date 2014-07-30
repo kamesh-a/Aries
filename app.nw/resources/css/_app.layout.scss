@@ -151,8 +151,11 @@ body {
 			@include sans;
 			font-size: 10px;
 			font-weight: 700;
-			left: 28px;
+			// left: 28px;
 			line-height: 1.9rem;
+			right: 0;
+			text-align: left;
+			width: calc(100% - 29px);
 		}
 
 		.tab-favicon, .tab-close {
