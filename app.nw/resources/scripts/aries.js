@@ -650,6 +650,7 @@
 			$(_gotIT).removeClass("active");
 
 			// Add active states to next view
+			// var txt = $(this).parent().nextAll("div[data-path='" + dp + "']").first().text();
 			$(this).parent(".tab").next(".tab").addClass("active");
 			$(_gotIT).next("iframe").addClass("active");
 
