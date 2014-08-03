@@ -590,6 +590,11 @@
 			"height": nw.win.window.innerHeight - 31 + "px"
 		});
 
+		// Prevent popups from occurring
+		nw.win.on("new-win-policy", function (frame, url, policy) {
+			policy.ignore();
+		});
+
 		// Recalculate sizing of browser elements when scaling Aries
 		// Need to make this better
 		nw.win.on("resize", function () {

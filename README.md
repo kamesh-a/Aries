@@ -1,5 +1,5 @@
 Aries
-=====
+=
 
 [![GitHub](http://img.shields.io/badge/GitHub-IdeasNeverCease/Aries-a0a060.svg?style=flat)](https://github.com/IdeasNeverCease/Aries)
 
