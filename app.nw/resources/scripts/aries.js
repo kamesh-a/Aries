@@ -148,6 +148,7 @@
 					$(".tab, .tabs-pane").removeClass("active");
 
 					$("#tab-wrapper").append("<button class='tab active' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-close'></span><span class='tab-title'>Start Page</span></button>");
+
 					$("#aries-showcase").append("<iframe class='tabs-pane active' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.113 Aries/0.2-alpha' nwdisable nwfaketop onLoad='pageLoad();' src='start.html'></iframe>");
 
 					$("#url-bar").val("").focus();
@@ -647,17 +648,52 @@
 			var _tabID = $(this).parent().attr("data-tab");
 			var _gotIT = $("iframe" + _tabID);
 
-			// var listItems = $("#aries-showcase iframe:gt(0)");
-			// $("#aries-showcase iframe").index(listItems).addClass("active");
-
 			// Remove active states from current view
 			$(this).parent(".tab").removeClass("active");
 			$(_gotIT).removeClass("active");
 
+			/*
 			// Add active states to next view
-			// var txt = $(this).parent().nextAll("div[data-path='" + dp + "']").first().text();
-			$(this).parent(".tab").next(".tab").addClass("active");
-			$(_gotIT).next("iframe").addClass("active");
+			$(this).closest("#tab-wrapper").find(".tab").addClass("active");
+			$(_gotIT).closest("#aries-showcase").find("iframe").addClass("active");
+			*/
+
+			// Update URL bar with new current tab/window combo
+
+			var
+			tab = $(this).closest("#tab-wrapper").find(".tab"),
+			win = $(_gotIT).closest("#aries-showcase").find("iframe"),
+			tabCount = tab.length,
+			winCount = win.length;
+
+			if (tabCount > 1) {
+				// tab.next().addClass("active");
+				tab.next().addClass("active").length ? tab.prev().addClass("active") : tab.next().addClass("active");
+			} else {
+				console.log("Create new tab");
+
+				$("#tab-wrapper").append("<button class='tab active' data-tab='#tab1' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-close'></span><span class='tab-title'>Start Page</span></button>");
+			}
+
+			if (winCount > 1) {
+				// win.next().addClass("active");
+				win.next().addClass("active").length ? win.prev().addClass("active") : win.next().addClass("active");
+
+				setTimeout(function () {
+					var _location = $("iframe.active").attr("src");
+					$("#url-bar").val(_location);
+				}, 10);
+			} else {
+				console.log("Create new window");
+
+				$("#aries-showcase").append("<iframe class='tabs-pane active' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.113 Aries/0.2-alpha' nwdisable nwfaketop onLoad='pageLoad();' id='tab1' src='start.html'></iframe>");
+
+				if ($("#url-bar").val() == "start.html") {
+					$("#url-bar").val("").focus();
+				} else {
+					$("#url-bar").val("").focus();
+				}
+			}
 
 			// Close the current tab and window
 			$(this).parent(".tab").remove();
@@ -822,13 +858,18 @@
 			$("button.active .tab-title").html(currentTitle);
 			$("button.active .tab-favicon").attr("src", getFavicon);
 
+			// Remove focus from URL bar
+			// TODO: focus on first input field in iframe.
+			//////// if none exist, focus on ifram.
+			$(this).focus();
+
 			// Start progress bar when clicking <a> inside window
 			var iframe = $(this).contents();
 
 			iframe.find("a").not("a[href*='#'], a[href*='%'], a[href*='javascript:;']").bind("click", function() {
 
 				// Hamburger menu on Dockyard.com has no href
-				if ($(this).attr("href").length == 0) { return false; }
+				if ($(this).attr("href").length === 0) { return false; }
 
 				NProgress.start();
 
