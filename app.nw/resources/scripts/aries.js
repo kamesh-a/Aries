@@ -149,7 +149,7 @@
 
 					$("#tab-wrapper").append("<button class='tab active' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-close'></span><span class='tab-title'>Start Page</span></button>");
 
-					$("#aries-showcase").append("<iframe class='tabs-pane active' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.113 Aries/0.2-alpha' nwdisable nwfaketop onLoad='pageLoad();' src='start.html'></iframe>");
+					$("#aries-showcase").append("<iframe class='tabs-pane active' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.157 Aries/0.5-alpha' nwdisable nwfaketop onLoad='pageLoad();' src='start.html'></iframe>");
 
 					$("#url-bar").val("").focus();
 
@@ -566,7 +566,7 @@
 		_iframe = "";
 		_iframe += "<iframe class='tabs-pane active'";
 		_iframe += "seamless='true'";
-		_iframe += "nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.113 Aries/0.2-alpha'";
+		_iframe += "nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.157 Aries/0.5-alpha'";
 		_iframe += "nwdisable nwfaketop ";
 		_iframe += "onLoad='pageLoad();'";
 		_iframe += "id='tab1'>";
@@ -686,7 +686,7 @@
 			} else {
 				console.log("Create new window");
 
-				$("#aries-showcase").append("<iframe class='tabs-pane active' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.113 Aries/0.2-alpha' nwdisable nwfaketop onLoad='pageLoad();' id='tab1' src='start.html'></iframe>");
+				$("#aries-showcase").append("<iframe class='tabs-pane active' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.157 Aries/0.5-alpha' nwdisable nwfaketop onLoad='pageLoad();' id='tab1' src='start.html'></iframe>");
 
 				if ($("#url-bar").val() == "start.html") {
 					$("#url-bar").val("").focus();
@@ -758,7 +758,10 @@
 
 			// Let's get this shit started!
 			nw.win.maximize();
-			nw.win.show();
+
+			setTimeout(function () {
+				nw.win.show();
+			}, 75);
 
 		};
 
