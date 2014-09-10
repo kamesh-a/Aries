@@ -648,10 +648,6 @@
 			var _tabID = $(this).parent().attr("data-tab");
 			var _gotIT = $("iframe" + _tabID);
 
-			// Remove active states from current view
-			$(this).parent(".tab").removeClass("active");
-			$(_gotIT).removeClass("active");
-
 			/*
 			// Add active states to next view
 			$(this).closest("#tab-wrapper").find(".tab").addClass("active");
@@ -666,18 +662,101 @@
 			tabCount = tab.length,
 			winCount = win.length;
 
-			if (tabCount > 1) {
-				// tab.next().addClass("active");
-				tab.next().addClass("active").length ? tab.prev().addClass("active") : tab.next().addClass("active");
-			} else {
+			// $(element).parent(".tab").removeClass("active"); // Remove active state from current tab
+			// tab.prev(".active").length ? tab.prev(".active") : tab.next(".active");
+			// tab.next().addClass("active").length ? tab.prev().addClass("active") : tab.next().addClass("active");
+			// $(_gotIT).removeClass("active"); // Remove active state from current window
+			// win.prev(".active").length ? win.prev(".active") : win.next(".active");
+
+			if (tabCount == 1) { // if there is only one tab left
+
+				console.log("This is the last tab");
+				$(this).parent(".tab").addClass("active");
+
+			} else if (tabCount > 1) {
+
+				if ($(this).parent(".tab").hasClass("active")) {
+
+					if (tab.next(".tab").length != null) { // if next tab exists
+						tab.next().addClass("active");
+					} else { // select previous tab
+						tab.prev().addClass("active");
+					}
+
+					$(this).parent(".tab").remove();
+					
+				} else {
+
+					if (tab.next(".tab").length != null) { // if next tab exists
+						tab.next().addClass("active");
+					} else { // select previous tab
+						tab.prev().addClass("active");
+					}
+
+					$(this).parent(".tab").remove();
+				}
+
+			} else if (tabCount < 1) { // just create new tab
+
 				console.log("Create new tab");
 
 				$("#tab-wrapper").append("<button class='tab active' data-tab='#tab1' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-close'></span><span class='tab-title'>Start Page</span></button>");
+
 			}
 
+			if (winCount == 1) { // if there is only one window left
+
+				console.log("This is the last window");
+				$(_gotIT).attr("src", "start.html");
+				$(_gotIT).addClass("active");
+
+			} else if (winCount > 1) {
+
+				if ($(_gotIT).hasClass("active")) {
+
+					if (win.next("iframe").length != null) { // if next window exists
+						win.next().addClass("active");
+					} else { // select previous window
+						win.prev().addClass("active");
+					}
+
+					$(_gotIT).remove();
+
+					setTimeout(function () {
+						var _location = $("iframe.active").attr("src");
+						$("#url-bar").val(_location);
+					}, 10);
+
+				} else {
+
+					if (win.next("iframe").length != null) { // if next window exists
+						win.next().addClass("active");
+					} else { // select previous window
+						win.prev().addClass("active");
+					}
+
+					$(_gotIT).remove();
+				}
+
+			} else if (winCount < 1) { // just create new window
+
+				console.log("Create new window");
+
+				$("#aries-showcase").append("<iframe class='tabs-pane active' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.157 Aries/0.5-alpha' nwdisable nwfaketop onLoad='pageLoad();' id='tab1' src='start.html'></iframe>");
+
+				if ($("#url-bar").val() == "start.html") {
+					$("#url-bar").val("").focus();
+				} else {
+					$("#url-bar").val("").focus();
+				}
+
+			}
+
+			/*
 			if (winCount > 1) {
 				// win.next().addClass("active");
-				win.next().addClass("active").length ? win.prev().addClass("active") : win.next().addClass("active");
+				win.prev(".active").length ? win.prev(".active") : win.next(".active");
+				// win.next().addClass("active").length ? win.prev().addClass("active") : win.next().addClass("active");
 
 				setTimeout(function () {
 					var _location = $("iframe.active").attr("src");
@@ -694,10 +773,13 @@
 					$("#url-bar").val("").focus();
 				}
 			}
+			*/
 
+			/*
 			// Close the current tab and window
 			$(this).parent(".tab").remove();
 			$(_gotIT).remove();
+			*/
 
 		});
 
