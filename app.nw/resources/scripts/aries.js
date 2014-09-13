@@ -648,25 +648,11 @@
 			var _tabID = $(this).parent().attr("data-tab");
 			var _gotIT = $("iframe" + _tabID);
 
-			/*
-			// Add active states to next view
-			$(this).closest("#tab-wrapper").find(".tab").addClass("active");
-			$(_gotIT).closest("#aries-showcase").find("iframe").addClass("active");
-			*/
-
-			// Update URL bar with new current tab/window combo
-
 			var
 			tab = $(this).closest("#tab-wrapper").find(".tab"),
 			win = $(_gotIT).closest("#aries-showcase").find("iframe"),
 			tabCount = tab.length,
 			winCount = win.length;
-
-			// $(element).parent(".tab").removeClass("active"); // Remove active state from current tab
-			// tab.prev(".active").length ? tab.prev(".active") : tab.next(".active");
-			// tab.next().addClass("active").length ? tab.prev().addClass("active") : tab.next().addClass("active");
-			// $(_gotIT).removeClass("active"); // Remove active state from current window
-			// win.prev(".active").length ? win.prev(".active") : win.next(".active");
 
 			if (tabCount == 1) { // if there is only one tab left
 
@@ -677,24 +663,28 @@
 
 				if ($(this).parent(".tab").hasClass("active")) {
 
+					/*
 					if (tab.next(".tab").length != null) { // if next tab exists
-						tab.next().addClass("active");
+						tab.next().first().addClass("active");
 					} else { // select previous tab
-						tab.prev().addClass("active");
+						tab.prev().first().addClass("active");
 					}
 
 					$(this).parent(".tab").remove();
-					
-				} else {
+					*/
 
-					if (tab.next(".tab").length != null) { // if next tab exists
-						tab.next().addClass("active");
-					} else { // select previous tab
-						tab.prev().addClass("active");
+					var prev = $(this).parent(".tab").prev(".tab");
+					var next = $(this).parent(".tab").next(".tab");
+
+					if (prev.length) {
+						$(this).parent(".tab").prev(".tab").addClass("active");
+					} else if (next.length) {
+						$(this).parent(".tab").next(".tab").addClass("active");
 					}
 
-					$(this).parent(".tab").remove();
 				}
+
+				$(this).parent(".tab").remove();
 
 			} else if (tabCount < 1) { // just create new tab
 
@@ -714,10 +704,11 @@
 
 				if ($(_gotIT).hasClass("active")) {
 
+					/*
 					if (win.next("iframe").length != null) { // if next window exists
-						win.next().addClass("active");
+						win.next().first().addClass("active");
 					} else { // select previous window
-						win.prev().addClass("active");
+						win.prev().first().addClass("active");
 					}
 
 					$(_gotIT).remove();
@@ -726,17 +717,20 @@
 						var _location = $("iframe.active").attr("src");
 						$("#url-bar").val(_location);
 					}, 10);
+					*/
 
-				} else {
+					var prev = $(_gotIT).prev("iframe");
+					var next = $(_gotIT).next("iframe");
 
-					if (win.next("iframe").length != null) { // if next window exists
-						win.next().addClass("active");
-					} else { // select previous window
-						win.prev().addClass("active");
+					if (prev.length) {
+						$(_gotIT).prev("iframe").addClass("active");
+					} else if (next.length) {
+						$(_gotIT).next("iframe").addClass("active");
 					}
 
-					$(_gotIT).remove();
 				}
+
+				$(_gotIT).remove();
 
 			} else if (winCount < 1) { // just create new window
 
@@ -751,35 +745,6 @@
 				}
 
 			}
-
-			/*
-			if (winCount > 1) {
-				// win.next().addClass("active");
-				win.prev(".active").length ? win.prev(".active") : win.next(".active");
-				// win.next().addClass("active").length ? win.prev().addClass("active") : win.next().addClass("active");
-
-				setTimeout(function () {
-					var _location = $("iframe.active").attr("src");
-					$("#url-bar").val(_location);
-				}, 10);
-			} else {
-				console.log("Create new window");
-
-				$("#aries-showcase").append("<iframe class='tabs-pane active' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.157 Aries/0.5-alpha' nwdisable nwfaketop onLoad='pageLoad();' id='tab1' src='start.html'></iframe>");
-
-				if ($("#url-bar").val() == "start.html") {
-					$("#url-bar").val("").focus();
-				} else {
-					$("#url-bar").val("").focus();
-				}
-			}
-			*/
-
-			/*
-			// Close the current tab and window
-			$(this).parent(".tab").remove();
-			$(_gotIT).remove();
-			*/
 
 		});
 
@@ -835,6 +800,29 @@
 				console.log("#2 — Tab ID: " + _dataTab_);
 
 			});
+
+			// Inject CSS into iframe
+			/*
+			$("iframe").each(function() {
+
+				function injectCSS() {
+					// $iframe.contents().find("head").append( $("<link/>", { rel: "stylesheet", href: "http://hikar.io/aries/browser.css", type: "text/css" }) );
+					$iframe.contents().find("head").append(css);
+				}
+
+				var $iframe = $(this);
+
+				var css = "";
+				css += "<style>";
+				css += "input, input:active, input:checked, input:focus, input[type='radio']:focus+label { outline: none !important; }";
+				css += "</style>";
+
+				$iframe.on("load", function() { injectCSS(); });
+
+				injectCSS();
+
+			});
+			*/
 
 			tabHover();
 

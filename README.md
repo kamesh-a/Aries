@@ -3,8 +3,6 @@ Aries
 
 [![GitHub](http://img.shields.io/badge/GitHub-IdeasNeverCease/Aries-a0a060.svg?style=flat)](https://github.com/IdeasNeverCease/Aries)
 
-![GitHub](http://forthebadge.com/badges/validated-html2.svg) ![[GitHub]](http://forthebadge.com/badges/powered-by-electricity.svg) ![[GitHub]](http://forthebadge.com/badges/uses-html.svg) ![[GitHub]](http://forthebadge.com/badges/uses-css.svg) ![[GitHub]](http://forthebadge.com/badges/uses-js.svg)
-
 Default browser for [hikari](https://github.com/IdeasNeverCease/hikari)
 
 ![Awesomesauce](https://d13yacurqjgara.cloudfront.net/users/92980/screenshots/1539019/attachments/234087/screen_shot_2014-05-05_at_3.32.57_pm.png)

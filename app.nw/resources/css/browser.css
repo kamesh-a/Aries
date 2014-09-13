@@ -1,0 +1,3 @@
+input, input:checked, input:focus {
+	outline: none !important;
+}
