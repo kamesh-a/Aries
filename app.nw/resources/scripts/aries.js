@@ -18,7 +18,12 @@
 			exec: require("child_process").exec,
 			fs: require("fs"),
 			path: require("path")
-		}, os = require('os');
+		},
+		os = require('os'),
+		winState,
+		currWinMode,
+		resizeTimeout,
+		isMaximizationEvent = false;
 
 		if (os.platform() === "darwin") {
 			// var menu = new nw.gui.Menu({ type: "menubar" });
@@ -459,6 +464,7 @@
 				click: function() {
 
 					nw.win.reload();
+					// nw.win.maximize(); // gotta be a better solution than this
 					console.log("Reloaded Aries");
 
 				},
@@ -562,6 +568,77 @@
 			nw.win.menu = menubar;
 		}
 
+		// winstate.js
+		function initWindowState() {
+
+			winState = JSON.parse(localStorage.windowState || "null");
+
+			if (winState) {
+				currWinMode = winState.mode;
+
+				if (currWinMode === "maximized") {
+					nw.win.maximize();
+				} else {
+					restoreWindowState();
+				}
+			} else {
+				currWinMode = "normal";
+
+				if (deltaHeight !== "disabled") deltaHeight = 0;
+				dumpWindowState();
+			}
+
+			nw.win.show();
+
+		}
+
+		function dumpWindowState() {
+
+			if (!winState) { winState = {}; }
+
+			// we don't want to save minimized state, only maximized or normal
+			if (currWinMode === "maximized") {
+				winState.mode = "maximized";
+			} else {
+				winState.mode = "normal";
+			}
+
+			// when window is maximized you want to preserve normal
+			// window dimensions to restore them later (even between sessions)
+			if (currWinMode === "normal") {
+				winState.x = nw.win.x;
+				winState.y = nw.win.y;
+				winState.width = nw.win.width;
+				winState.height = nw.win.height;
+
+				// save delta only of it is not zero
+				if (deltaHeight !== "disabled" && deltaHeight !== 0 && currWinMode !== "maximized") {
+					winState.deltaHeight = deltaHeight;
+				}
+			}
+
+		}
+
+		function restoreWindowState() {
+
+			// deltaHeight already saved, so just restore it and adjust window height
+			if (deltaHeight !== "disabled" && typeof winState.deltaHeight !== "undefined") {
+				deltaHeight = winState.deltaHeight;
+				winState.height = winState.height - deltaHeight;
+			}
+
+			nw.win.resizeTo(winState.width, winState.height);
+			nw.win.moveTo(winState.x, winState.y);
+
+		}
+
+		function saveWindowState() {
+
+			dumpWindowState();
+			localStorage.windowState = JSON.stringify(winState);
+
+		}
+
 		// Build initial iframe
 		_iframe = "";
 		_iframe += "<iframe class='tabs-pane active'";
@@ -574,13 +651,86 @@
 		$("#aries-showcase").append(_iframe);
 
 		// Minimize Aries
-		$(".app-minimize").on("click", function () { nw.win.minimize(); });
+		$(".app-minimize").on("click", function () {
+
+			nw.win.on("minimize", function() {
+				currWinMode = "minimized";
+			});
+
+			nw.win.minimize();
+
+		});
+
+		// Restore Aries
+		nw.win.on("restore", function() {
+			currWinMode = "normal";
+		});
 
 		// Un/Maximize Aries
-		$(".app-maximize").on("click", function () { nw.win.maximize(); });
+		$(".app-maximize").on("click", function () {
+
+			nw.win.on("maximize", function() {
+				isMaximizationEvent = true;
+				currWinMode = "maximized";
+			});
+
+			nw.win.on("unmaximize", function() {
+				currWinMode = "normal";
+				restoreWindowState();
+			});
+
+			nw.win.maximize();
+
+		});
+
+		// Resize Aries
+		// Enable this when I have resizing implemented
+		/*
+		nw.win.window.addEventListener("resize", function () {
+
+			// resize event is fired many times on one resize action,
+			// this hack with setTiemout forces it to fire only once
+			clearTimeout(resizeTimeout);
+
+			resizeTimeout = setTimeout(function () {
+
+				// on MacOS you can resize maximized window, so it's no longer maximized
+				if (isMaximizationEvent) {
+					// first resize after maximization event should be ignored
+					isMaximizationEvent = false;
+				} else {
+					if (currWinMode === "maximized") {
+						currWinMode = "normal";
+					}
+				}
+
+				// there is no deltaHeight yet, calculate it and adjust window size
+				if (deltaHeight !== "disabled" && deltaHeight === false) {
+					deltaHeight = nw.win.height - winState.height;
+					// set correct size
+					if (deltaHeight !== 0) {
+						nw.win.resizeTo(winState.width, nw.win.height - deltaHeight);
+					}
+				}
+
+				dumpWindowState();
+
+			}, 500);
+
+		}, false);
+		*/
 
 		// Close Aries
-		$(".app-close").on("click", function () { nw.win.close(); });
+		$(".app-close").on("click", function () {
+
+			nw.win.on("close", function() {
+				saveWindowState();
+				this.close(true);
+			});
+
+			nw.win.close();
+
+		});
 
 		// Set URL bar width
 		$("#url-bar").css("width", nw.win.window.innerWidth - 190 + "px");
@@ -654,87 +804,51 @@
 			tabCount = tab.length,
 			winCount = win.length;
 
-			if (tabCount == 1) { // if there is only one tab left
+			if ((tabCount == 1) && (winCount == 1)) { // if there is only one window left
 
-				console.log("This is the last tab");
+				console.log("This is the last tab and window.");
+
 				$(this).parent(".tab").addClass("active");
-
-			} else if (tabCount > 1) {
-
-				if ($(this).parent(".tab").hasClass("active")) {
-
-					/*
-					if (tab.next(".tab").length != null) { // if next tab exists
-						tab.next().first().addClass("active");
-					} else { // select previous tab
-						tab.prev().first().addClass("active");
-					}
-
-					$(this).parent(".tab").remove();
-					*/
-
-					var prev = $(this).parent(".tab").prev(".tab");
-					var next = $(this).parent(".tab").next(".tab");
-
-					if (prev.length) {
-						$(this).parent(".tab").prev(".tab").addClass("active");
-					} else if (next.length) {
-						$(this).parent(".tab").next(".tab").addClass("active");
-					}
-
-				}
-
-				$(this).parent(".tab").remove();
-
-			} else if (tabCount < 1) { // just create new tab
-
-				console.log("Create new tab");
-
-				$("#tab-wrapper").append("<button class='tab active' data-tab='#tab1' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-close'></span><span class='tab-title'>Start Page</span></button>");
-
-			}
-
-			if (winCount == 1) { // if there is only one window left
-
-				console.log("This is the last window");
 				$(_gotIT).attr("src", "start.html");
 				$(_gotIT).addClass("active");
 
-			} else if (winCount > 1) {
+			} else if ((tabCount > 1) && (winCount > 1)) { // if there is more than one window
 
-				if ($(_gotIT).hasClass("active")) {
+				if ($(this).parent().hasClass("active") && $(_gotIT).hasClass("active")) {
 
-					/*
-					if (win.next("iframe").length != null) { // if next window exists
-						win.next().first().addClass("active");
-					} else { // select previous window
-						win.prev().first().addClass("active");
+					var prevTab = $(this).parent(".tab").prev(".tab");
+					var nextTab = $(this).parent(".tab").next(".tab");
+
+					if (prevTab.length) {
+						$(this).parent(".tab").prev(".tab").addClass("active");
+					} else if (nextTab.length) {
+						$(this).parent(".tab").next(".tab").addClass("active");
 					}
 
-					$(_gotIT).remove();
+					var prevWin = $(_gotIT).prev("iframe");
+					var nextWin = $(_gotIT).next("iframe");
 
-					setTimeout(function () {
-						var _location = $("iframe.active").attr("src");
-						$("#url-bar").val(_location);
-					}, 10);
-					*/
-
-					var prev = $(_gotIT).prev("iframe");
-					var next = $(_gotIT).next("iframe");
-
-					if (prev.length) {
+					if (prevWin.length) {
 						$(_gotIT).prev("iframe").addClass("active");
-					} else if (next.length) {
+					} else if (nextWin.length) {
 						$(_gotIT).next("iframe").addClass("active");
 					}
 
 				}
 
+				setTimeout(function () {
+					var _location = $("iframe.active").attr("src");
+					$("#url-bar").val(_location);
+				}, 10);
+
+				$(this).parent(".tab").remove();
 				$(_gotIT).remove();
 
-			} else if (winCount < 1) { // just create new window
+			} else if ((tabCount < 1) && (winCount < 1)) { // just create new tab and window
 
-				console.log("Create new window");
+				console.log("Create new tab and window");
+
+				$("#tab-wrapper").append("<button class='tab active' data-tab='#tab1' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-close'></span><span class='tab-title'>Start Page</span></button>");
 
 				$("#aries-showcase").append("<iframe class='tabs-pane active' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.157 Aries/0.5-alpha' nwdisable nwfaketop onLoad='pageLoad();' id='tab1' src='start.html'></iframe>");
 
@@ -904,6 +1018,7 @@
 
 		var favicon, _tabID = $(".tab.active").attr("data-tab");
 		var nodeList = $("iframe" + _tabID).contents().find("link");
+		// var nodeListII = $("iframe" + _tabID).contents().find("meta");
 
 		for (var i = 0; i < nodeList.length; i++) {
 			// get any type of icon
@@ -911,6 +1026,12 @@
 			if ((nodeList[i].getAttribute("rel") == "icon") || (nodeList[i].getAttribute("rel") == "shortcut icon") || (nodeList[i].getAttribute("rel") == "apple-touch-icon")) {
 				favicon = nodeList[i].href; // get absolute path
 			} // else { favicon = "resources/images/favicon-default.png"; }
+
+			/*
+			if (nodeListII[i].getAttribute("property") == "og:image") {
+				favicon = nodeListII[i].content;
+			}
+			*/
 		}
 
 		return favicon;
@@ -933,7 +1054,7 @@
 
 			// Remove focus from URL bar
 			// TODO: focus on first input field in iframe.
-			//////// if none exist, focus on ifram.
+			//////// if none exist, focus on iframe.
 			$(this).focus();
 
 			// Start progress bar when clicking <a> inside window
@@ -1012,6 +1133,8 @@
 
 	// Go to a website, or search for something
 	function goThere() {
+
+		// pageLoad();
 
 		// 651 TLDs!
 		// TLD list: https://data.iana.org/TLD/tlds-alpha-by-domain.txt

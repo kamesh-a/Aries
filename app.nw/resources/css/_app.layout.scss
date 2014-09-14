@@ -333,6 +333,13 @@ button.app-close {
 	background-size: 400px 299px;
 }
 
+#showcase__loader {
+	width: 100%; height: 10px;
+	top: 31px; left: 0;
+
+	position: absolute;
+}
+
 button.start-settings {
 	width: 100%; height: 31px;
 
