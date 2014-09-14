@@ -19,7 +19,7 @@
 			fs: require("fs"),
 			path: require("path")
 		},
-		os = require('os'),
+		os = require("os"),
 		winState,
 		currWinMode,
 		resizeTimeout,
@@ -640,15 +640,26 @@
 		}
 
 		// Build initial iframe
-		_iframe = "";
-		_iframe += "<iframe class='tabs-pane active'";
-		_iframe += "seamless='true'";
-		_iframe += "nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.157 Aries/0.5-alpha'";
-		_iframe += "nwdisable nwfaketop ";
-		_iframe += "onLoad='pageLoad();'";
-		_iframe += "id='tab1'>";
+		_iframeInit = "";
+		_iframeInit += "<iframe class='tabs-pane active'";
+		_iframeInit += "seamless='true'";
+		_iframeInit += "nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.157 Aries/0.5-alpha'";
+		_iframeInit += "nwdisable nwfaketop ";
+		_iframeInit += "onLoad='pageLoad();'";
+		_iframeInit += "id='tab1'>";
+		
+		// Build initial tab
+		_tabInit = "";
+		_tabInit += "<button class='tab active'";
+		_tabInit += "data-tab='#tab1'";
+		_tabInit += "data-page='start.html'>";
+		_tabInit += "<img class='tab-favicon' type='image/x-icon'";
+		_tabInit += "src='resources/images/favicon-default.png'>";
+		_tabInit += "<span class='tab-close'></span>";
+		_tabInit += "<span class='tab-title'>Start Page</span>";
+		_tabInit += "</button>";
 
-		$("#aries-showcase").append(_iframe);
+		$("#aries-showcase").append(_iframeInit);
 
 		// Minimize Aries
 		$(".app-minimize").on("click", function () {
@@ -682,43 +693,6 @@
 			nw.win.maximize();
 
 		});
-
-		// Resize Aries
-		// Enable this when I have resizing implemented
-		/*
-		nw.win.window.addEventListener("resize", function () {
-
-			// resize event is fired many times on one resize action,
-			// this hack with setTiemout forces it to fire only once
-			clearTimeout(resizeTimeout);
-
-			resizeTimeout = setTimeout(function () {
-
-				// on MacOS you can resize maximized window, so it's no longer maximized
-				if (isMaximizationEvent) {
-					// first resize after maximization event should be ignored
-					isMaximizationEvent = false;
-				} else {
-					if (currWinMode === "maximized") {
-						currWinMode = "normal";
-					}
-				}
-
-				// there is no deltaHeight yet, calculate it and adjust window size
-				if (deltaHeight !== "disabled" && deltaHeight === false) {
-					deltaHeight = nw.win.height - winState.height;
-					// set correct size
-					if (deltaHeight !== 0) {
-						nw.win.resizeTo(winState.width, nw.win.height - deltaHeight);
-					}
-				}
-
-				dumpWindowState();
-
-			}, 500);
-
-		}, false);
-		*/
 
 		// Close Aries
 		$(".app-close").on("click", function () {
@@ -760,6 +734,43 @@
 			});
 
 		});
+
+		// Resize Aries
+		// Enable this when I have resizing implemented
+		/*
+		nw.win.window.addEventListener("resize", function () {
+
+			// resize event is fired many times on one resize action,
+			// this hack with setTiemout forces it to fire only once
+			clearTimeout(resizeTimeout);
+
+			resizeTimeout = setTimeout(function () {
+
+				// on MacOS you can resize maximized window, so it's no longer maximized
+				if (isMaximizationEvent) {
+					// first resize after maximization event should be ignored
+					isMaximizationEvent = false;
+				} else {
+					if (currWinMode === "maximized") {
+						currWinMode = "normal";
+					}
+				}
+
+				// there is no deltaHeight yet, calculate it and adjust window size
+				if (deltaHeight !== "disabled" && deltaHeight === false) {
+					deltaHeight = nw.win.height - winState.height;
+					// set correct size
+					if (deltaHeight !== 0) {
+						nw.win.resizeTo(winState.width, nw.win.height - deltaHeight);
+					}
+				}
+
+				dumpWindowState();
+
+			}, 500);
+
+		}, false);
+		*/
 
 		$(document).on("click", ".tab-title", function () {
 
@@ -848,9 +859,8 @@
 
 				console.log("Create new tab and window");
 
-				$("#tab-wrapper").append("<button class='tab active' data-tab='#tab1' data-page='start.html'><img class='tab-favicon' type='image/x-icon' src='resources/images/favicon-default.png'><span class='tab-close'></span><span class='tab-title'>Start Page</span></button>");
-
-				$("#aries-showcase").append("<iframe class='tabs-pane active' seamless='true' nwUserAgent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.157 Aries/0.5-alpha' nwdisable nwfaketop onLoad='pageLoad();' id='tab1' src='start.html'></iframe>");
+				$("#tab-wrapper").append(_tabInit);
+				$("#aries-showcase").append(_iframeInit);
 
 				if ($("#url-bar").val() == "start.html") {
 					$("#url-bar").val("").focus();
